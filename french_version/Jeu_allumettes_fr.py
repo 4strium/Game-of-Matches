@@ -19,7 +19,7 @@ root.title("Le Jeu des 21 allumettes par Romain MELLAZA")       # Un titre
 root.geometry("1080x720")                                       # Un resolution d'affichage, ici HD
 root.minsize(1080, 720)                                         # Je bloque cette resolution, pour éviter que l'utilisateur ne redimmensionne n'importe comment.
 root.maxsize(1080, 720)
-root.iconbitmap(default='LOGO_v1.ico')                          # Je défini un logo pour la fenêtre
+root.iconbitmap(default='icon\LOGO_v1.ico')                          # Je défini un logo pour la fenêtre
 
 
 # Je défini des variables essentielles avec leurs valeurs par défaut :
@@ -31,7 +31,7 @@ count_window_open = 0                                           # Compteur qui p
 count_window_regles = 0                                         # Compteur qui permet au programme de savoir combien de fenêtre de règles l'utilisateur à ouvert !
 
 # J'importe et affiche une image de fond pour mon accueil:
-bg = PhotoImage(file = "Background_IMAGE.png")
+bg = PhotoImage(file = "img\Background_IMAGE.png")
 canvas_accueil = Canvas( root, width = 1080, height = 720)
 canvas_accueil.pack(fill = "both", expand = True)
 canvas_accueil.create_image( 0, 0, image = bg, anchor = "nw")
@@ -98,7 +98,7 @@ def open_regles():
         # Importer et afficher une image de fond :
         canvas_regles = Canvas(root_regles, width = 1080, height = 720)
         canvas_regles.pack(fill = "both", expand = True)
-        bg2 = ImageTk.PhotoImage(file = "Background_IMAGE_REGLES.png")
+        bg2 = ImageTk.PhotoImage(file = "french_version\Background_IMAGE_REGLES.png")
         canvas_regles.create_image( 0, 0, image = bg2, anchor = "nw")
         root_regles.mainloop()
     else :
@@ -124,7 +124,7 @@ def open_mode_jcj():
         # Importer et afficher une image de fond :
         canvas_jcj = Canvas(root_jcj, width = 1080, height = 720)
         canvas_jcj.pack(fill = "both", expand = True)
-        bg3 = ImageTk.PhotoImage(file = "Background_IMAGE.png")
+        bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_jcj.create_image( 0, 0, image = bg3, anchor = "nw")
         crea_button(root_jcj,canvas_jcj)
         spawn_allumettes(canvas_jcj)
@@ -151,7 +151,7 @@ def select_difficult():
         # Importer et afficher une image de fond :
         canvas_selection = Canvas(root_selection, width = 1080, height = 720)
         canvas_selection.pack(fill = "both", expand = True)
-        bg6 = ImageTk.PhotoImage(file = "Background_IMAGE.png")
+        bg6 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_selection.create_image( 0, 0, image = bg6, anchor = "nw")
         selection_button(root_selection, canvas_selection)
         mainloop()
@@ -191,7 +191,7 @@ def open_mode_oco():
         # Importer et afficher une image de fond :
         canvas_oco = Canvas(root_oco, width = 1080, height = 720)
         canvas_oco.pack(fill = "both", expand = True)
-        bg5 = ImageTk.PhotoImage(file = "Background_IMAGE.png")
+        bg5 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_oco.create_image( 0, 0, image = bg5, anchor = "nw")
         appelle_robot_oco(canvas_oco, root_oco)
         spawn_allumettes_oco(canvas_oco)
@@ -269,7 +269,7 @@ def spawn_allumettes(canvas):
     e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
     r=canvas.create_rectangle(canvas.bbox(e),fill="white")
     canvas.tag_lower(r, e)
-    allum_img = ImageTk.PhotoImage(file = "allum_v1.png")
+    allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
     allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
     allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
     allum3 = canvas.create_image(70, 100, image = allum_img, anchor = 'nw')
@@ -523,7 +523,7 @@ def open_mode_jco_simple(root_precedent):
     # Importer et afficher une image de fond :
     canvas_jco_simple = Canvas(root_jco_simple, width = 1080, height = 720)
     canvas_jco_simple.pack(fill = "both", expand = True)
-    bg4 = ImageTk.PhotoImage(file = "Background_IMAGE.png")
+    bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_simple.create_image( 0, 0, image = bg4, anchor = "nw")
     crea_button_robot_simple(root_jco_simple, canvas_jco_simple)
     spawn_allumettes(canvas_jco_simple)
@@ -680,7 +680,7 @@ def open_mode_jco_difficile(root_precedent):
     # Importer et afficher une image de fond :
     canvas_jco_difficile = Canvas(root_jco_difficile, width = 1080, height = 720)
     canvas_jco_difficile.pack(fill = "both", expand = True)
-    bg4 = ImageTk.PhotoImage(file = "Background_IMAGE.png")
+    bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_difficile.create_image( 0, 0, image = bg4, anchor = "nw")
     crea_button_robot_difficile(root_jco_difficile,canvas_jco_difficile)
     spawn_allumettes(canvas_jco_difficile)
@@ -710,7 +710,7 @@ def spawn_allumettes_oco(canvas):
     e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
     r=canvas.create_rectangle(canvas.bbox(e),fill="white")
     canvas.tag_lower(r, e)
-    allum_img = ImageTk.PhotoImage(file = "allum_v1.png")
+    allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
     allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
     allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
     allum3 = canvas.create_image(70, 100, image = allum_img, anchor = 'nw')
