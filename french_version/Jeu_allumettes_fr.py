@@ -1,49 +1,57 @@
-# Auteur : Romain MELLAZA
-# Date : 01/04/2022
-# Description : Programme qui permet à l'utilisateur de jouer (via une interface graphique TKinter) au jeu des allumettes.
-# Comme demandé, quatres modes sont disponibles : Joueur contre Joueur, Joueur contre Ordinateur (en aléatoire), Joueur contre Ordinateur (en algorithme) et ordinateur contre ordinateur (en aléatoire)
-# Pour voir les règles du jeu cliquez sur le bouton correspondant dans l'accueil
+# $$$$$$$\                                    $$\                 $$\      $$\     
+# $$  __$$\                                   \__|                $$$\    $$$ |    
+# $$ |  $$ | $$$$$$\  $$$$$$\$$$$\   $$$$$$\  $$\ $$$$$$$\        $$$$\  $$$$ |    
+# $$$$$$$  |$$  __$$\ $$  _$$  _$$\  \____$$\ $$ |$$  __$$\       $$\$$\$$ $$ |    
+# $$  __$$< $$ /  $$ |$$ / $$ / $$ | $$$$$$$ |$$ |$$ |  $$ |      $$ \$$$  $$ |    
+# $$ |  $$ |$$ |  $$ |$$ | $$ | $$ |$$  __$$ |$$ |$$ |  $$ |      $$ |\$  /$$ |    
+# $$ |  $$ |\$$$$$$  |$$ | $$ | $$ |\$$$$$$$ |$$ |$$ |  $$ |      $$ | \_/ $$ |$$\ 
+# \__|  \__| \______/ \__| \__| \__| \_______|\__|\__|  \__|      \__|     \__|\__|
+
+#
+# Description: Program that allows the user to play (via a TKinter graphical interface) the game of matches.
+# Four modes are available: Player vs. Player, Player vs. Computer (random), Player vs. Computer (algorithmic) and Computer vs. Computer (random).
+# To see the rules of the game click on the corresponding button in the home page!
 # 
 
-# J'importe les modules indispensables au bon fonctionnement de mon programme :
+# I import the modules essential to the proper functioning of my program:
 from tkinter import *
 from tkinter import messagebox
 from PIL import ImageTk
 from random import randint
 
-# Je défini ma fenêtre parent que j'appellerai "root" (ce sera mon accueil) :
+# I define my parent window that I will call "root" (this will be my homepage):
 root = Tk()
 
-# Je défini des paramètres à cette fenêtre :
-root.title("Le Jeu des 21 allumettes par Romain MELLAZA")       # Un titre
-root.geometry("1080x720")                                       # Un resolution d'affichage, ici HD
-root.minsize(1080, 720)                                         # Je bloque cette resolution, pour éviter que l'utilisateur ne redimmensionne n'importe comment.
+# I define parameters to this window:
+root.title("Le Jeu des 21 allumettes par Romain MELLAZA")       # A title
+root.geometry("1080x720")                                       # A display resolution, here HD
+root.minsize(1080, 720)                                         # I block this resolution, to prevent the user from resizing anyhow.
 root.maxsize(1080, 720)
-root.iconbitmap(default='icon\LOGO_v1.ico')                          # Je défini un logo pour la fenêtre
+root.iconbitmap(default='icon\LOGO_v1.ico')                     # I define a logo for the window.
 
 
-# Je défini des variables essentielles avec leurs valeurs par défaut :
-nb_allumettes = 21                                              # Le nombre d'alumettes initialement sur la table
-count_x = 0                                                     # Variable pour compter le rang des images d'alummettes en fonction du nombre à supprimer (voir fctn "suppr_allum")
-allum_list=[]                                                   # Liste qui contiendra toutes les images d'allumettes
-count_player = 2                                                # Compteur qui permet au programme de savoir à quel joueur (ou robot) c'est le tour de jouer !
-count_window_open = 0                                           # Compteur qui permet au programme de savoir combien de fenêtre de jeu l'utilisateur à ouvert !
-count_window_regles = 0                                         # Compteur qui permet au programme de savoir combien de fenêtre de règles l'utilisateur à ouvert !
+# I define essential variables with their default values:
+nb_allumettes = 21                                              # The number of matches initially on the table
+count_x = 0                                                     # Variable to count the rank of match images according to the number to delete (see fctn "suppr_allum")
+allum_list=[]                                                   # List that will contain all match images
+count_player = 2                                                # Counter that allows the program to know which player (or robot) it's the turn to play!
+count_window_open = 0                                           # Counter that allows the program to know how many game windows, the user has opened !
+count_window_regles = 0                                         # Counter that allows the program to know how many rules windows, the user has opened !
 
-# J'importe et affiche une image de fond pour mon accueil:
+# I import and display a background image for my homepage:
 bg = PhotoImage(file = "img\Background_IMAGE.png")
 canvas_accueil = Canvas( root, width = 1080, height = 720)
 canvas_accueil.pack(fill = "both", expand = True)
 canvas_accueil.create_image( 0, 0, image = bg, anchor = "nw")
 
-# Ajouter un titre à mon accueil :
-# Je crée un texte blanc à qui j'ajoute un surlignement bleu derrière
+# Add a title to my homepage:
+# I create a white text to which I add a blue highlight behind.
 i=canvas_accueil.create_text(540.45, 137, text='Bienvenue dans le super jeu des allumettes !', font=("Helvetica", 40), fill="white")
 r=canvas_accueil.create_rectangle(canvas_accueil.bbox(i),fill="#00bdfb")                                                              
 canvas_accueil.tag_lower(r,i)
 
-# Ajouter un sous-titre à mon accueil :
-# Je crée un texte blanc à qui j'ajoute un surlignement bleu derrière
+# Add a subtitle to my homepage:
+# I create a white text to which I add a blue highlight behind.
 k=canvas_accueil.create_text(540.45, 310, text='Veuillez selectionner un mode de jeu :', font=("Helvetica", 30), fill="white")
 l=canvas_accueil.create_rectangle(canvas_accueil.bbox(k),fill="#00bdfb")
 canvas_accueil.tag_lower(l,k)
@@ -54,17 +62,17 @@ canvas_accueil.tag_lower(l,k)
 
 
 ##############################################################################################################################################################################################################
-#                                                                                     ACCUEIL                                                                                                                #
+#                                                                                     HOMEPAGE                                                                                                               #
 #                                                                                                                                                                                                            #
 
-# Définition d'une fonction qui créer les boutons pour prendre des allumettes:
+# Definition of a function that creates the buttons to take matches:
 def crea_button(racine,canvas):
     '''
-    Fonction qui reçoit la fenêtre ("racine") ainsi que la toile ("canvas") où elle doit implanter des boutons pour choisir le nombre d'allumette que l'utilisateur prends.
+    Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
-    Chaque pression sur un bouton appelle ensuite une fonction de supression d'allumettes en rapport.
+    Each button press then invokes a related match delete function.
 
-    Elle renvoie les caractéristiques et l'emplacement des boutons sur la toile.
+    It returns the characteristics and the location of the buttons on the canvas.
     '''
     v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
     w=canvas.create_rectangle(canvas.bbox(v),fill="#00bdfb")
@@ -78,14 +86,14 @@ def crea_button(racine,canvas):
     return button1_window, button2_window, button3_window
 
 
-# Définition d'une fonction qui ouvre la fenêtre des régles du jeu:
+# Defining a function that opens the game rules window:
 def open_regles():
     '''
-    Procédure qui ouvre la fenêtre des règles seulement si celle-ci n'est pas déjà ouverte.
+    Procedure that opens the rules window only if it is not already open.
 
-    Les règles sont importées et affichées directement sur une nouvelle toile dans une nouvelle fenêtre.
+    The rulers are imported and displayed directly on a new canvas in a new window.
 
-    En revanche si elle est déjà ouverte alors un message d'erreur est affiché sur l'écran de l'utilisateur.
+    On the other hand, if it is already open then an error message is displayed on the user's screen.
     '''
     global count_window_regles
     if count_window_regles == 0 :
@@ -104,14 +112,14 @@ def open_regles():
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert les règles du jeu !")
 
-# Définition d'une fontion qui ouvre la fenêtre du mode Joueur 1 contre Joueur 2 :
+# Defining a function that opens the Player 1 vs. Player 2 mode window:
 def open_mode_jcj():
     '''
-    Procédure qui définie ce qui se passe si l'utilisateur appuie sur le bouton "Joueur contre Joueur".
+    Procedure that defines what happens if the user presses the "Player vs. Player" button.
 
-    Une nouvelle fenêtre de jeu est créée seulement si celle-ci n'est pas déjà ouverte.
+    A new game window is created only if it is not already open.
 
-    La procédure appelle par la suite d'autres fonctions pour afficher tous les éléments indispensables au jeu !
+    The procedure then calls other functions to display all the elements essential to the game!
     '''
     global nb_allumettes, count_x, count_window_open
     if count_window_open == 0 :
@@ -121,7 +129,7 @@ def open_mode_jcj():
         root_jcj.minsize(1080, 720)
         root_jcj.maxsize(1080, 720)
         count_window_open+=1
-        # Importer et afficher une image de fond :
+        # Import and display a background image:
         canvas_jcj = Canvas(root_jcj, width = 1080, height = 720)
         canvas_jcj.pack(fill = "both", expand = True)
         bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
@@ -135,10 +143,10 @@ def open_mode_jcj():
 
 def select_difficult():
     '''
-    Procédure qui créée la fenêtre de choix qui apparaît à l'écran si l'utilisateur appuie sur "Joueur Contre Robot".
+    Procedure that creates the choice window that appears on the screen if the user presses "Player Against Robot".
 
-    On lui applique une image de fond, etc... 
-    Puis on apelle la fonction qui implémante tous les éléments indispensables au choix (boutons, titres, ...)
+    Apply a background image, etc.
+    Then we call the function that implements all the essential elements for the choice (buttons, titles, etc.)
     '''
     global count_window_open
     if count_window_open == 0 :
@@ -148,7 +156,7 @@ def select_difficult():
         root_selection.minsize(1080, 720)
         root_selection.maxsize(1080, 720)
         count_window_open+=1
-        # Importer et afficher une image de fond :
+        # Import and display a background image:
         canvas_selection = Canvas(root_selection, width = 1080, height = 720)
         canvas_selection.pack(fill = "both", expand = True)
         bg6 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
@@ -160,7 +168,7 @@ def select_difficult():
 
 def selection_button(root_menu, canvas):
     '''
-    Fonction qui définie les éléments de la fenêtre de choix qui apparaît à l'écran si l'utilisateur appuie sur "Joueur Contre Robot"
+    Function that defines the elements of the choice window that appears on the screen if the user presses "Player Vs Robot"
     '''
     q=canvas.create_text(540.45, 200, text='Veuillez selectionner le niveau de difficulté du robot :', font=("Helvetica", 34), fill="white")
     s=canvas.create_rectangle(canvas.bbox(q),fill="#00bdfb")
@@ -171,14 +179,14 @@ def selection_button(root_menu, canvas):
     canvas.create_window(600, 320, anchor='nw', window=button_difficile)
 
 
-# Définition d'une fontion qui ouvre la fenêtre du mode Ordinateur contre Ordinateur :
+# Defining a function that opens the Computer vs. Computer mode window:
 def open_mode_oco():
     '''
-    Procédure qui définie ce qui se passe si l'utilisateur appuie sur le bouton "Ordinateur contre Ordinateur".
+    Procedure that defines what happens if the user presses the "Computer vs. Computer" button.
 
-    Une nouvelle fenêtre de jeu est créée seulement si celle-ci n'est pas déjà ouverte.
+    A new game window is created only if it is not already open.
 
-    La procédure appelle par la suite d'autres fonctions pour afficher tous les éléments indispensables au jeu !
+    The procedure then calls other functions to display all the elements essential to the game!
     '''
     global count_window_open
     if count_window_open == 0 :
@@ -188,7 +196,7 @@ def open_mode_oco():
         root_oco.minsize(1080, 720)
         root_oco.maxsize(1080, 720)
         count_window_open+=1
-        # Importer et afficher une image de fond :
+        # Import and display a background image:
         canvas_oco = Canvas(root_oco, width = 1080, height = 720)
         canvas_oco.pack(fill = "both", expand = True)
         bg5 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
@@ -200,17 +208,17 @@ def open_mode_oco():
 
 def msg_remerciment() :
     '''
-    Procédure qui affiche un message de remerciment à l'utilisateur si celui-ci fini sa partie ou quitte le jeu en fermant la fenêtre.
+    Procedure that displays a thank you message to the user if he finishes his game or quits the game by closing the window.
     '''
     messagebox.showinfo("MERCI !","Merci beaucoup d'avoir joué à mon jeu !\n\n Dessins: Maéva LE GROS\n Développement: Romain MELLAZA")
     root.destroy()
 
 
-# Ajouter un bouton pour ouvrir les règles du jeu :
+# Add a button to open the game rules:
 button_rgl = Button(root, text="Les Règles du jeu", command=open_regles, font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
 button_rgl_window = canvas_accueil.create_window(855, 640, anchor='nw', window=button_rgl)
 
-# Ajouter les différent boutons pour sélectionner les mode de jeu :
+# Add the different buttons to select the game mode:
 
 button_jcj = Button(root, text="Joueur 1 contre Joueur 2", command=open_mode_jcj, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
 button_jcj_window = canvas_accueil.create_window(100, 400, anchor='nw', window=button_jcj)
