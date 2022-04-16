@@ -240,17 +240,17 @@ button_oco_window = canvas_accueil.create_window(375, 520, anchor='nw', window=b
 
 
 ##############################################################################################################################################################################################################
-#                                                                                     MODE JOUEUR CONTRE JOUEUR                                                                                              #
+#                                                                                     PLAYER VS PLAYER MODE                                                                                                  #
 #                                                                                                                                                                                                            #
 
-# Définition d'une fonction qui créer les boutons pour prendre des allumettes:
+# Definition of a function that creates the buttons to take matches:
 def crea_button(racine,canvas):
     '''
-    Fonction qui reçoit la fenêtre ("racine") ainsi que la toile ("canvas") où elle doit implemanter des boutons pour choisir le nombre d'allumette que l'utilisateur prends.
+    Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
-    Chaque pression sur un bouton appelle ensuite une fonction de supression d'allumettes en rapport.
+    Each button press then invokes a related match delete function.
 
-    Elle renvoie les caractéristiques et l'emplacement des boutons sur la toile.
+    It returns the characteristics and the location of the buttons on the canvas.
     '''
     global button1, button2, button3
     v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
@@ -267,11 +267,11 @@ def crea_button(racine,canvas):
 
 def spawn_allumettes(canvas):
     '''
-    Fonction qui reçoit en paramètre la toile où elle doit afficher les images d'allumettes.
+    Function that receives as a parameter the canvas where it must display the images of matches.
 
-    A noter que j'utilise aussi cette fonction pour tous les modes sauf ordi contre ordi !
+    Note that I also use this function for all modes except computer against computer!
 
-    Elle importe l'image et l'affiche à plusieurs positions dans la fenêtre, elle met toutes les données sur les images d'allumettes dans une liste "allum_list".
+    It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
     '''
     global allum_list
     e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
@@ -306,20 +306,20 @@ def spawn_allumettes(canvas):
 
 def suppr_allum(number, canvas_allum, root_correspondant):
     '''
-    Fonction assez complexe qui admet en paramètre le nombre d'allumettes à supprimer "number" en fonction du bouton pressé (1 ou 2 ou 3) 
-    ainsi que la toile du mode de jeu actuel "canvas_allum" (où sont donc les images d'allumettes à supprimer) et enfin la fenêtre correspondante "root_correspondant"
+    Quite complex function which accepts as a parameter the number of matches to be deleted "number" according to the button pressed (1 or 2 or 3)
+    as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
     
-    La fonction soustrait le nombre d'allumettes prises au nombre d'allumettes restantes sur la table.
-    Elle appelle ensuite le joueur qui doit jouer à ce tour grâce à la fonction "appelle_joueur()"
+    The function subtracts the number of matches taken from the number of matches remaining on the table.
+    It then calls the player who must play this turn using the "call_player()" function
 
-    En fonction du nombre d'allumettes restantes, les boutons pour prendre plus que possible se désactivent automatiquement !
+    Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
-    En fonction du nombre d'allumettes prises, le programme supprime le bon nombre d'images correspondant.
+    Depending on the number of matches taken, the program deletes the correct number of corresponding images.
 
-    Si il ne reste plus aucune allumette sur la table, le programme infomre le joueur actuel de sa défaite, ferme la fenêtre de jeu, réinitialise toutes las valeurs,
-    les joueurs peuvent donc rejouer sans fermer complétement le jeu !
+    If there are no matches left on the table, the program informs the current player of his defeat, closes the game window, resets all values, 
+    so players can play again without closing the game completely!
 
-    Si l'utilisateur ferme manuellement le jeu, le message de remerciment est affiché !
+    If the user manually closes the game, the thank you message is displayed!
     '''
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
@@ -362,8 +362,8 @@ def suppr_allum(number, canvas_allum, root_correspondant):
 
 def appelle_joueur(canvas):
     '''
-    Fonction qui admet la toile du mode de jeu actuel "canvas" pour y afficher le joueur a qui c'est le tour de jouer
-    en fonction de compteur de tour "count_player" (si il est pair ou impair).
+    Function that admits the canvas of the current game mode "canvas" to display the player whose turn 
+    it's according to the turn counter "count_player" (if it's even or odd).
     '''
     global count_player
     print('Count_PLAYER :', count_player)
@@ -380,20 +380,20 @@ def appelle_joueur(canvas):
 
 
 ##############################################################################################################################################################################################################
-#                                                                                MODE JOUEUR CONTRE ORDINATEUR (DIFFICULTÉ = SIMPLE)                                                                         #
+#                                                                                PLAYER VS COMPUTER MODE (DIFFICULTY = SIMPLE)                                                                               #
 #                                                                                                                                                                                                            #
 
 
-# Définition d'une fonction qui créer les boutons pour prendre des allumettes:
+# Definition of a function that creates the buttons to take matches:
 def crea_button_robot_simple(racine,canvas):
     '''
-    Fonction qui reçoit la fenêtre ("racine") ainsi que la toile ("canvas") où elle doit implemanter des boutons pour choisir le nombre d'allumette que l'utilisateur prends.
+    Function that receives the window ("racine") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
-    Chaque pression sur un bouton appelle ensuite une fonction de supression d'allumettes en rapport.
+    Each button press then invokes a related match delete function.
 
-    Elle renvoie les caractéristiques et l'emplacement des boutons sur la toile.
+    It returns the characteristics and the location of the buttons on the canvas.
 
-    La seule différence avec la fonction classique est que le robot peut ne pas l'appeler systématiquement car lui il passe directemnt par le suppression, et n'appuie évidemment sur aucun boutton !
+    The only difference with the classic function is that the robot may not systematically call it because it goes directly through the deletion, and obviously does not press any button!
     '''
     global button1, button2, button3
     v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
@@ -408,27 +408,27 @@ def crea_button_robot_simple(racine,canvas):
     return button1_window, button2_window, button3_window
 
 
-# J'utilise aussi la fontion "spawn_allumettes" vue précedemment.
+# I also use the "spawn_allumettes" function seen above.
 
 
 def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
     '''
-    Fonction assez complexe qui admet en paramètre le nombre d'allumettes à supprimer "number" en fonction du bouton pressé (1 ou 2 ou 3) 
-    ainsi que la toile du mode de jeu actuel "canvas_allum" (où sont donc les images d'allumettes à supprimer) et enfin la fenêtre correspondante "root_correspondant"
+    Quite complex function which accepts as a parameter the number of matches to be deleted "number" according to the button pressed (1 or 2 or 3)
+    as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
     
-    La fonction soustrait le nombre d'allumettes prises au nombre d'allumettes restantes sur la table.
-    Elle appelle ensuite le joueur ou le robot qui doit jouer à ce tour grâce à la fonction "appelle_robot()"
+    The function subtracts the number of matches taken from the number of matches remaining on the table.
+    It then calls the player or the robot which must play this turn using the "appelle_robot()" function
 
-    En fonction du nombre d'allumettes restantes, les boutons pour prendre plus que possible se désactivent automatiquement !
+    Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
-    En fonction du nombre d'allumettes prises, le programme supprime le bon nombre d'images correspondant.
+    Depending on the number of matches taken, the program deletes the correct number of corresponding images.
 
-    Si il ne reste plus aucune allumette sur la table, le programme infomre le joueur actuel de sa défaite, ferme la fenêtre de jeu, réinitialise toutes las valeurs,
-    les joueurs peuvent donc rejouer sans fermer complétement le jeu !
+    If there are no matches left on the table, the program informs the current player of his defeat, closes the game window, resets all values, 
+    so players can play again without closing the game completely!
 
-    Si l'utilisateur ferme manuellement le jeu, le message de remerciment est affiché !
+    If the user manually closes the game, the thank you message is displayed!
 
-    La seule différence avec la fonction classique, est que la fonction appelle le robot une fois sur deux et non pas deux joueurs !
+    The only difference with the classic function is that the function calls the robot every other time and not two players!
     '''
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
@@ -474,18 +474,18 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
 
 def appelle_robot(canvas, root_correspondant):
     '''
-    Fonction qui admet la toile du mode de jeu actuel "canvas" pour y afficher le joueur ou le robot a qui c'est le tour de jouer
-    en fonction de compteur de tour "count_player" (si il est pair ou impair).
+    Function that admits the canvas of the current game mode "canvas" to display there the player or the robot whose turn 
+    it's to play according to the turn counter "count_player" (if it is even or odd).
 
-    Lorsque c'est au robot de jouer elle désactive tous les bouttons pour que le joueur ne joue pas à ça place ! (et inversement)
+    When it's up to the robot to play, it deactivates all the buttons so that the player doesn't play instead! (and vice versa)
 
-    Le robot prends des allumettes de manière aléatoire jusqu'à qu'il n'en reste que 3 ou moins, pour éviter qu'il joue "débilement"
+    The robot takes matches randomly until there are only 3 or less left, to prevent it from playing "crazy"
 
-    (Voir directement les commentaires dans le code pour comprendre la logique)
+    (See comments directly in the code to understand the logic)
     '''
     global count_player, nb_robot, count_x, count_window_open
     if count_player % 2 == 1 :
-        button1['state'] = NORMAL               # commande TRES utile qui permet de changer l'état des bouttons
+        button1['state'] = NORMAL               # VERY useful command that allows you to change the state of the buttons
         button2['state'] = NORMAL
         button3['state'] = NORMAL
         e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
@@ -498,29 +498,29 @@ def appelle_robot(canvas, root_correspondant):
         button1['state'] = DISABLED
         button2['state'] = DISABLED
         button3['state'] = DISABLED
-        nb_robot=randint(1,3)               # Je détermine de manière complétement alétoire le nombre d'allumettes prises par le robot
-        while nb_robot > nb_allumettes :    # MAIS ATTENTION si le robot veut prendre plus d'allumettes qu'il n'y en a sur la table alors il redétermine une valeur aléatoirement jusqu'à que la condition soit fausse et que le programme sorte de la boucle
+        nb_robot=randint(1,3)               # I determine in a completely random way the number of matches taken by the robot
+        while nb_robot > nb_allumettes :    # BUT BE CAREFUL if the robot wants to take more matches than there are on the table then it redetermines a random value until the condition is false and the program exits the loop
             nb_robot=randint(1,3)
-        if nb_allumettes == 3 :             # Si il reste 3 allumettes sur la table, alors le robot en prends 2 pour piéger le joueur
+        if nb_allumettes == 3 :             # If there are 3 matches left on the table, then the robot takes 2 to trap the player
             nb_robot = 2
-        elif nb_allumettes == 2 :           # Si il reste 2 allumettes sur la table, alors le robot en prends 1 pour piéger le joueur
+        elif nb_allumettes == 2 :           # If there are 2 matches left on the table, then the robot takes 1 to trap the player
             nb_robot = 1
-        elif nb_allumettes == 1 :           # Si il ne reste plus qu'une seule allumette alors le robot est obligé de la prendre et de concéder la défaite... Je ferme le jeu par la suite.
+        elif nb_allumettes == 1 :           # If there is only one match left then the robot is obliged to take it and concede defeat... I close the game afterwards.
             messagebox.showinfo("Gagné ! :)","Le robot est obligé de prendre la dernière allumette, bien joué !")
             msg_remerciment()
-        canvas.after(3000, suppr_allum_robot_simple, nb_robot, canvas, root_correspondant)      # Cette fonction permet d'éxécuter la fonction "suppr_allum_robot_simple()" vue juste au-dessus après 3000ms et avec mon nombre qui vient d'être déterminé, en argument.
+        canvas.after(3000, suppr_allum_robot_simple, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
-# Définition d'une fontion qui ouvre la fenêtre du mode Joueur 1 contre un Ordinateur (difficulté : simple) :
+# Defining a function that opens the Player 1 mode window against a Computer (difficulty: simple):
 def open_mode_jco_simple(root_precedent):
     '''
-    Fonction qui admet en paramètre la fenêtre de sélection de difficulté pour pouvoir la supprimmer juste après qu'elle est donnée naissance à celle-ci !
+    Function that accepts the difficulty selection window as a parameter in order to be able to delete it just after it is given birth to this one!
 
-    Une nouvelle fenêtre de jeu est créée seulement si celle-ci n'est pas déjà ouverte.
+    A new game window is created only if it is not already open.
 
-    Les paramètres de bases sont appliqués.
+    Basic settings are applied.
 
-    La fonction appelle par la suite d'autres fonctions pour afficher tous les éléments indispensables au jeu !
+    The function then calls other functions to display all the elements essential to the game!
     '''
     root_precedent.destroy()
     root_jco_simple = Toplevel(root)
@@ -539,20 +539,20 @@ def open_mode_jco_simple(root_precedent):
 
 
 ##############################################################################################################################################################################################################
-#                                                                              MODE JOUEUR CONTRE ORDINATEUR (DIFFICULTÉ = DIFFICILE)                                                                        #
+#                                                                                      PLAYER VS COMPUTER MODE (DIFFICULTY = HARD)                                                                           #
 #                                                                                                                                                                                                            #
 
 
 
 def crea_button_robot_difficile(racine,canvas):
     '''
-    Fonction qui reçoit la fenêtre ("racine") ainsi que la toile ("canvas") où elle doit implemanter des boutons pour choisir le nombre d'allumette que l'utilisateur prends.
+    Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
-    Chaque pression sur un bouton appelle ensuite une fonction de supression d'allumettes en rapport.
+    Each button press then invokes a related match delete function.
 
-    Elle renvoie les caractéristiques et l'emplacement des boutons sur la toile.
+    It returns the characteristics and the location of the buttons on the canvas.
 
-    La seule différence avec la fonction classique est que le robot peut ne pas l'appeler systématiquement car lui il passe directemnt par le suppression, et n'appuie évidemment sur aucun boutton !
+    The only difference with the classic function is that the robot may not systematically call it because it goes directly through the deletion, and obviously does not press any button!
     '''
     global button1, button2, button3
     v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
@@ -569,22 +569,22 @@ def crea_button_robot_difficile(racine,canvas):
 
 def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
     '''
-    Fonction assez complexe qui admet en paramètre le nombre d'allumettes à supprimer "number" en fonction du bouton pressé (1 ou 2 ou 3) 
-    ainsi que la toile du mode de jeu actuel "canvas_allum" (où sont donc les images d'allumettes à supprimer) et enfin la fenêtre correspondante "root_correspondant"
+    Fairly complex function that accepts as a parameter the number of matches to be removed "number" depending on the button pressed (1 or 2 or 3) as well as the canvas of the current game mode "canvas_allum" (where are the images of matches to delete) 
+    and finally the corresponding window "root_correspondant"
     
-    La fonction soustrait le nombre d'allumettes prises au nombre d'allumettes restantes sur la table.
-    Elle appelle ensuite le joueur ou le robot qui doit jouer à ce tour grâce à la fonction "appelle_robot()"
+    The function subtracts the number of matches taken from the number of matches remaining on the table.
+    It then calls the player or the robot which must play this turn using the "appelle_robot()" function
 
-    En fonction du nombre d'allumettes restantes, les boutons pour prendre plus que possible se désactivent automatiquement !
+    Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
-    En fonction du nombre d'allumettes prises, le programme supprime le bon nombre d'images correspondant.
+    Depending on the number of matches taken, the program deletes the correct number of corresponding images.
 
-    Si il ne reste plus aucune allumette sur la table, le programme infomre le joueur actuel de sa défaite, ferme la fenêtre de jeu, réinitialise toutes las valeurs,
-    les joueurs peuvent donc rejouer sans fermer complétement le jeu !
+    If there are no matches left on the table, the program informs the current player of his defeat, closes the game window, resets all values, 
+    so players can play again without closing the game completely!
 
-    Si l'utilisateur ferme manuellement le jeu, le message de remerciment est affiché !
+    If the user manually closes the game, the thank you message is displayed!
 
-    La seule différence avec la fonction classique, est que la fonction appelle le robot une fois sur deux et non pas deux joueurs !
+    The only difference with the classic function is that the function calls the robot every other time and not two players!
     '''
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
@@ -630,14 +630,14 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
 
 def appelle_robot_difficile(canvas, root_correspondant):
     '''
-    Fonction qui admet la toile du mode de jeu actuel "canvas" pour y afficher le joueur ou le robot a qui c'est le tour de jouer
-    en fonction de compteur de tour "count_player" (si il est pair ou impair).
+    Function that admits the canvas of the current game mode "canvas" to display there the player or the robot whose turn 
+    it's to play according to the turn counter "count_player" (if it is even or odd).
 
-    Lorsque c'est au robot de jouer elle désactive tous les bouttons pour que le joueur ne joue pas à ça place ! (et inversement)
+    When it's up to the robot to play, it deactivates all the buttons so that the player doesn't play instead! (and vice versa)
 
-    Le robot prends ici des allumettes de manière algorithmique, et logique
+    The robot here picks matches algorithmically, and logically
 
-    (Voir directement les commentaires dans le code pour comprendre la logique)
+    (See comments directly in the code to understand the logic)
     '''
     global count_player, nb_robot, count_x, count_window_open
     if count_player % 2 == 1 :
@@ -654,7 +654,7 @@ def appelle_robot_difficile(canvas, root_correspondant):
         button1['state'] = DISABLED
         button2['state'] = DISABLED
         button3['state'] = DISABLED
-        if nb_allumettes % 4 == 3:                  # Ici contrairement à la difficulté simple, je détermine de manière algorithmique le nombre d'allumettes que le robot doit prendre pour être sûr de gagner !
+        if nb_allumettes % 4 == 3:                  # Here unlike the simple difficulty, I algorithmically determine the number of matches that the robot must take to be sure to win!
             nb_robot = 2
         elif nb_allumettes % 4 == 2:
             nb_robot = 1
@@ -665,19 +665,19 @@ def appelle_robot_difficile(canvas, root_correspondant):
         if nb_allumettes == 1 :
             messagebox.showinfo("Gagné ! :)","Le robot est obligé de prendre la dernière allumette, bien joué !")
             msg_remerciment()
-        canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # Cette fonction permet d'éxécuter la fonction "suppr_allum_robot_simple()" vue juste au-dessus après 3000ms et avec mon nombre qui vient d'être déterminé, en argument.
+        canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
-# Définition d'une fontion qui ouvre la fenêtre du mode Joueur 1 contre un Ordinateur :
+# Defining a function that opens the Player 1 mode window against a Computer:
 def open_mode_jco_difficile(root_precedent):
     '''
-    Fonction qui admet en paramètre la fenêtre de sélection de difficulté pour pouvoir la supprimmer juste après qu'elle est donnée naissance à celle-ci !
+    Function that accepts the difficulty selection window as a parameter in order to be able to delete it just after it is given birth to this one!
 
-    Une nouvelle fenêtre de jeu est créée seulement si celle-ci n'est pas déjà ouverte.
+    A new game window is created only if it is not already open.
 
-    Les paramètres de bases sont appliqués.
+    Basic settings are applied.
 
-    La fonction appelle par la suite d'autres fonctions pour afficher tous les éléments indispensables au jeu !
+    The function then calls other functions to display all the elements essential to the game!
     '''
     root_precedent.destroy()
     root_jco_difficile = Toplevel(root)
@@ -697,7 +697,7 @@ def open_mode_jco_difficile(root_precedent):
 
 
 ##############################################################################################################################################################################################################
-#                                                                              MODE ORDINATEUR CONTRE ORDINATEUR                                                                                             #
+#                                                                                  COMPUTER VERSUS COMPUTER MODE                                                                                             #
 #                                                                                                                                                                                                            #
 
 
@@ -706,13 +706,11 @@ def open_mode_jco_difficile(root_precedent):
 
 def spawn_allumettes_oco(canvas):
     '''
-    Fonction qui reçoit en paramètre la toile où elle doit afficher les images d'allumettes.
+    Function that receives as a parameter the canvas where it must display the images of matches.
 
-    A noter que j'utilise aussi cette fonction pour tous les modes sauf ordi contre ordi !
+    It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
 
-    Elle importe l'image et l'affiche à plusieurs positions dans la fenêtre, elle met toutes les données sur les images d'allumettes dans une liste "allum_list".
-
-    Cette fonction est strictement la même que la classique, seulement le 1er joueur est remplacé par Marcus le robot. :)
+    This function is strictly the same as the classic one, only the 1st player is replaced by Marcus the robot. :)
     '''
     global allum_list
     e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
@@ -749,22 +747,22 @@ def spawn_allumettes_oco(canvas):
 
 def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
     '''
-    Fonction assez complexe qui admet en paramètre le nombre d'allumettes à supprimer "number" en fonction du bouton pressé (1 ou 2 ou 3) 
-    ainsi que la toile du mode de jeu actuel "canvas_allum" (où sont donc les images d'allumettes à supprimer) et enfin la fenêtre correspondante "root_correspondant"
-    
-    La fonction soustrait le nombre d'allumettes prises au nombre d'allumettes restantes sur la table.
-    Elle appelle ensuite le joueur ou le robot qui doit jouer à ce tour grâce à la fonction "appelle_robot()"
+    Fairly complex function that accepts as a parameter the number of matches to be removed "number" depending on the button pressed (1 or 2 or 3) as well as the canvas of the current game mode "canvas_allum" (where are the images of matches to delete) 
+    and finally the corresponding window "root_correspondant"
 
-    En fonction du nombre d'allumettes restantes, les boutons pour prendre plus que possible se désactivent automatiquement !
+    The function subtracts the number of matches taken from the number of matches remaining on the table.
+    It then calls the robot which must play this turn using the "call_robot_oco()" function
 
-    En fonction du nombre d'allumettes prises, le programme supprime le bon nombre d'images correspondant.
+    Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
-    Si il ne reste plus aucune allumette sur la table, le programme infomre le joueur actuel de sa défaite, ferme la fenêtre de jeu, réinitialise toutes las valeurs,
-    les joueurs peuvent donc rejouer sans fermer complétement le jeu !
+    Depending on the number of matches taken, the program deletes the correct number of corresponding images.
 
-    Si l'utilisateur ferme manuellement le jeu, le message de remerciment est affiché !
+    If there are no matches left on the table, the program informs the current player of his defeat, closes the game window, resets all values, 
+    so players can play again without closing the game completely!
 
-    La seule différence avec la fonction classique, est que la fonction appelle deux robots et non pas deux joueurs (qui devrait par conséquent cliquer) !
+    If the user manually closes the game, the thank you message is displayed!
+
+    The only difference with the classic function is that the function calls two robots and not two players (who should therefore click)!
     '''
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number    
@@ -798,14 +796,14 @@ def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
 
 def appelle_robot_oco(canvas, root_correspondant):
     '''
-    Fonction qui admet la toile du mode de jeu actuel "canvas" pour y afficher le robot Donald ou le robot Marcus a qui c'est le tour de jouer
-    en fonction de compteur de tour "count_player" (si il est pair ou impair).
+    Function that admits the canvas of the current game mode "canvas" to display the robot Donald or the robot Marcus whose turn it is to play 
+    according to the turn counter "count_player" (if it is even or odd).
 
-    Lorsque c'est au robot de jouer elle désactive tous les bouttons pour que le joueur ne joue pas à ça place ! (et inversement)
+    When it's up to the robot to play, it deactivates all the buttons so that the player doesn't play instead! (and vice versa)
 
-    Les robots ont ici exactement la même logique que dans le mode difficulté simple du jco, c'est àdire aléatoire jusqu'à qu'il ne reste plus que 3 allumettes
+    The robots here have exactly the same logic as in the jco's simple difficulty mode, i.e. random until there are only 3 matches left
 
-    (Voir directement les commentaires dans le code pour comprendre la logique)
+    (See comments directly in the code to understand the logic)
     '''
     global count_player, nb_robot
     if count_player % 2 == 1 :
@@ -820,9 +818,9 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Donald !")                 # Je peux donc savoir quel robot a gagné et par conséquent quel robot a perdu !
+            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Donald !")                 # So I can know which robot won and therefore which robot lost!
             msg_remerciment()
-        canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # Cette fonction permet d'éxécuter la fonction "suppr_allum_robot_simple_oco()" vue juste au-dessus après 1500ms et avec mon nombre qui vient d'être déterminé, en argument.
+        canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
     if count_player % 2 == 0 :
         d=canvas.create_text(540, 450, text="Donald",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
@@ -835,18 +833,18 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Marcus !")                 # Je peux donc savoir quel robot a gagné et par conséquent quel robot a perdu !
+            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Marcus !")                 # So I can know which robot won and therefore which robot lost!
             msg_remerciment()
-        canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # Cette fonction permet d'éxécuter la fonction "suppr_allum_robot_simple_oco()" vue juste au-dessus après 1500ms et avec mon nombre qui vient d'être déterminé, en argument.
+        canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
 
 
 
     
 
 
-# Si l'utilisateur ferme l'accueil cela affiche le message de remerciment :
+# If the user closes the homepage, it displays the thank you message:
 root.protocol('WM_DELETE_WINDOW', msg_remerciment)
 
 
-# Je rafraîchis continuellement mon application via cette commade :
+# I continuously refresh my application via this command:
 root.mainloop()
