@@ -366,7 +366,6 @@ def appelle_joueur(canvas):
     it's according to the turn counter "count_player" (if it's even or odd).
     '''
     global count_player
-    print('Count_PLAYER :', count_player)
     if count_player % 2 == 1 :
         e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
