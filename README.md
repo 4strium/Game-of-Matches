@@ -35,9 +35,9 @@ The game offers several different game modes whether you are alone or two:
 
 ## Downloads :
 You can access the different versions of the game and download them on the page dedicated to [releases.](https://github.com/4strium/Game-of-Matches/releases)
-|                |Description                         |Changes                         |
-|----------------|-------------------------------|-----------------------------|
-|[v1.0.0](https://github.com/4strium/Game-of-Matches/releases/tag/v1.0.0)|`Initial version`            |...            |
+|                |Description                         |Changes                         |Release date                        |
+|----------------|-------------------------------|-----------------------------|-----------------------------|
+|[v1.0.0](https://github.com/4strium/Game-of-Matches/releases/tag/v1.0.0)|`Initial version`            |...            |Released at 15-05-2022|
 
 
 ## Licence :
