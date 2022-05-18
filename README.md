@@ -9,9 +9,9 @@ Four modes are available: Player vs. Player, Player vs. Computer (random), Playe
 - [Principle of the game](https://github.com/4strium/Game-of-Matches#principle-of-the-game)
 - [Games Modes](https://github.com/4strium/Game-of-Matches#games-modes-)
     - [Player vs. Player](https://github.com/4strium/Game-of-Matches#player-vs-player-)
-    - [Player vs. Computer (random)](https://github.com/4strium/Game-of-Matches#)
-    - [Player vs. Computer (algorithmic)](https://github.com/4strium/Game-of-Matches#)
-    - [Computer vs. Computer (random)](https://github.com/4strium/Game-of-Matches#)
+    - [Player vs. Computer (random)](https://github.com/4strium/Game-of-Matches#player-vs-computer-random-)
+    - [Player vs. Computer (algorithmic)](https://github.com/4strium/Game-of-Matches#player-vs-computer-algorithmic-)
+    - [Computer vs. Computer (random)](https://github.com/4strium/Game-of-Matches#computer-vs-computer-random-)
 - [Technologies used](https://github.com/4strium/Game-of-Matches#)
 - [Downloads](https://github.com/4strium/Game-of-Matches#)
 
@@ -28,10 +28,17 @@ In case of problems, you can directly access the rules of the game in the home p
 
 ## Games Modes :
 The game offers several different game modes whether you are alone or two:
-- ## Player vs. Player :
-- ## Player vs. Computer (random) :
-- ## Player vs. Computer (algorithmic) :
-- ## Computer vs. Computer (random) :
+- ### Player vs. Player :
+- ### Player vs. Computer (random) :
+- ### Player vs. Computer (algorithmic) :
+- ### Computer vs. Computer (random) :
+
+## Downloads :
+You can access the different versions of the game and download them on the page dedicated to [releases.](https://github.com/4strium/Game-of-Matches/releases)
+|                |Description                         |Changes                         |
+|----------------|-------------------------------|-----------------------------|
+|[v1.0.0](https://github.com/4strium/Game-of-Matches/releases/tag/v1.0.0)|`Initial version`            |...            |
+
 
 ## Licence :
 Licensed under the [GNU General Public License v3.0](https://github.com/4strium/Game-of-Matches/blob/main/LICENSE)
