@@ -1,7 +1,7 @@
-<h1 align="center">Game of Matches</h1>
 <p align="center">
   <img width="200" src="img\LOGO_v1.png" alt="Game of Matches logo">
 </p>
+<h1 align="center">Game of Matches</h1>
 
 Program that allows the user to play (via a TKinter graphical interface) the game of matches.
 Four modes are available: Player vs. Player, Player vs. Computer (random), Player vs. Computer (algorithmic) and Computer vs. Computer (random).
