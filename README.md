@@ -12,7 +12,7 @@ Four modes are available: Player vs. Player, Player vs. Computer (random), Playe
     - [Player vs. Computer (random)](https://github.com/4strium/Game-of-Matches#)
     - [Player vs. Computer (algorithmic)](https://github.com/4strium/Game-of-Matches#)
     - [Computer vs. Computer (random)](https://github.com/4strium/Game-of-Matches#)
-- [Fibonnaci Sequence](https://github.com/4strium/Game-of-Matches#)
+- [Technologies used](https://github.com/4strium/Game-of-Matches#)
 - [Downloads](https://github.com/4strium/Game-of-Matches#)
 
 ## Principle of the game :
@@ -20,6 +20,10 @@ The principle of the game is quite simple, it's a two-player game, initially the
 In turn, you will have to remove one, two or three matches.
 BUT BE CAREFUL, whoever removes the last match from the table loses!
 It's up to you to develop the best strategy to win!
+
+## Games Modes :
+The game offers several different game modes whether you are alone or two:
+### Player vs. Player :
 
 In case of problems, you can directly access the rules of the game in the home page of the game:
 <p align="center">
