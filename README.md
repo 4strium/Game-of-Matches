@@ -13,7 +13,7 @@ Four modes are available: Player vs. Player, Player vs. Computer (random), Playe
     - [Player vs. Computer (algorithmic)](https://github.com/4strium/Game-of-Matches#player-vs-computer-algorithmic-)
     - [Computer vs. Computer (random)](https://github.com/4strium/Game-of-Matches#computer-vs-computer-random-)
 - [Technologies used](https://github.com/4strium/Game-of-Matches#)
-- [Downloads](https://github.com/4strium/Game-of-Matches#)
+- [Downloads](https://github.com/4strium/Game-of-Matches#downloads-)
 
 ## Principle of the game :
 The principle of the game is quite simple, it's a two-player game, initially there are 21 matches which are laid out on a table.
