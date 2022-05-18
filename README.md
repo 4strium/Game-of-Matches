@@ -21,11 +21,11 @@ In turn, you will have to remove one, two or three matches.
 BUT BE CAREFUL, whoever removes the last match from the table loses!
 It's up to you to develop the best strategy to win!
 
+In case of problems, you can directly access the rules of the game in the home page of the game:
+
 ## Games Modes :
 The game offers several different game modes whether you are alone or two:
-### Player vs. Player :
-
-In case of problems, you can directly access the rules of the game in the home page of the game:
+- ## Player vs. Player :
 <p align="center">
   <img width="200" src="img\docs\game_rules.PNG" alt="Image button of game rules">
 </p>
