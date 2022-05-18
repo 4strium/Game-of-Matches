@@ -13,7 +13,7 @@
 - [Downloads](https://github.com/4strium/Game-of-Matches#)
 
 ## Principle of the game :
-The principle of the game is quite simple, it's a two-player game, initially there are <u>21</u> matches which are laid out on a table.
+<p>The principle of the game is quite simple, it's a two-player game, initially there are <u>21</u> matches which are laid out on a table.
 In turn, you will have to remove one, two or three matches.
 BUT BE CAREFUL, whoever removes the last match from the table loses!
-<u>It's up to you to develop the best strategy to win!</u>
+<u>It's up to you to develop the best strategy to win!</u></p>
