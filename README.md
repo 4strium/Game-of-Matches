@@ -29,9 +29,16 @@ In case of problems, you can directly access the rules of the game in the home p
 ## Games Modes :
 The game offers several different game modes whether you are alone or two:
 - ### Player vs. Player :
+You can take turns playing with a friend! The first player will be "Player 1" and the second "Player 2".
 - ### Player vs. Computer (random) :
 - ### Player vs. Computer (algorithmic) :
 - ### Computer vs. Computer (random) :
+
+
+## Technologies used :
+I use two very useful and functional modules:
+-[Random](https://docs.python.org/3/library/random.html)
+-[TKinter](https://docs.python.org/fr/3/library/tk.html)
 
 ## Downloads :
 You can access the different versions of the game and download them on the page dedicated to [releases.](https://github.com/4strium/Game-of-Matches/releases)
