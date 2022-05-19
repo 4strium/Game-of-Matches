@@ -37,8 +37,13 @@ You can take turns playing with a friend! The first player will be "Player 1" an
 
 ## Technologies used :
 I use two very useful and functional modules:
--[Random](https://docs.python.org/3/library/random.html)
--[TKinter](https://docs.python.org/fr/3/library/tk.html)
+- [Random](https://docs.python.org/3/library/random.html)
+to completely randomly generate the number of matches taken by the computers.
+- [TKinter](https://docs.python.org/fr/3/library/tk.html)
+to create the full GUI! All actions with buttons, animations,...
+- [PYinstaller](https://pyinstaller.org/en/stable/)
+to compact all the external files in the same executable file, this module also allows to run any python program (even with dependencies) on any machine!
+
 
 ## Downloads :
 You can access the different versions of the game and download them on the page dedicated to [releases.](https://github.com/4strium/Game-of-Matches/releases)
