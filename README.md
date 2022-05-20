@@ -43,7 +43,8 @@ to completely randomly generate the number of matches taken by the computers.
 to create the full GUI! All actions with buttons, animations,...
 - [PYinstaller](https://pyinstaller.org/en/stable/)
 to compact all the external files in the same executable file, this module also allows to run any python program (even with dependencies) on any machine!
-
+- [NSIS](https://nsis.sourceforge.io/Main_Page) 
+to build a simple and efficient installer.
 
 ## Downloads :
 You can access the different versions of the game and download them on the page dedicated to [releases.](https://github.com/4strium/Game-of-Matches/releases)
