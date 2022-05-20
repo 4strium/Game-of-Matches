@@ -49,6 +49,7 @@ if nb_allumettes % 4 == 3:                  # Here unlike the simple difficulty,
         canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # This function allows you to execute the "suppr_allum_robot_simple()" function after 3000ms and with my number which has just been determined, as an argument.
 ```
 - ### Computer vs. Computer (random) :
+The robots here have exactly the same logic as in [the player vs computer simple difficulty mode](https://github.com/4strium/Game-of-Matches#player-vs-computer-random-), i.e. random until there are only 3 matches left.
 
 
 ## Technologies used :
