@@ -86,6 +86,46 @@ def crea_button(racine,canvas):
     return button1_window, button2_window, button3_window
 
 
+def reset_count_win_reg():
+    '''
+    Procedure that resets the open rules counter
+    '''
+    global count_window_regles, root_regles
+    count_window_regles = 0
+    root_regles.destroy()
+
+def reset_count_win_game():
+    '''
+    Procedure that resets the open game window counter
+    '''
+    global count_window_open, root_jcj, root_selection, root_oco, nb_allumettes, count_x, count_player, allum_list, root_jco_difficile
+    count_window_open = 0
+    nb_allumettes = 21
+    allum_list = []
+    count_x = 0
+    count_player = 0
+    try :
+        root_jcj.destroy()
+    except :
+        pass
+    try :
+        root_selection.destroy()
+    except :
+        pass
+    try :
+        root_oco.destroy()
+    except :
+        pass
+    try :
+        root_jco_simple.destroy()
+    except :
+        pass
+    try :
+        root_jco_difficile.destroy()
+    except :
+        pass
+
+
 # Defining a function that opens the game rules window:
 def open_regles():
     '''
@@ -95,7 +135,7 @@ def open_regles():
 
     On the other hand, if it is already open then an error message is displayed on the user's screen.
     '''
-    global count_window_regles
+    global count_window_regles, root_regles
     if count_window_regles == 0 :
         root_regles = Toplevel(root)
         root_regles.title("Les règles du Jeu des allumettes")
@@ -108,6 +148,7 @@ def open_regles():
         canvas_regles.pack(fill = "both", expand = True)
         bg2 = ImageTk.PhotoImage(file = "french_version\Background_IMAGE_REGLES.png")
         canvas_regles.create_image( 0, 0, image = bg2, anchor = "nw")
+        root_regles.protocol('WM_DELETE_WINDOW', reset_count_win_reg)
         root_regles.mainloop()
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert les règles du jeu !")
@@ -121,7 +162,7 @@ def open_mode_jcj():
 
     The procedure then calls other functions to display all the elements essential to the game!
     '''
-    global nb_allumettes, count_x, count_window_open
+    global nb_allumettes, count_x, count_window_open, root_jcj
     if count_window_open == 0 :
         root_jcj = Toplevel(root)
         root_jcj.title("Partie entre deux joueurs")
@@ -134,6 +175,7 @@ def open_mode_jcj():
         canvas_jcj.pack(fill = "both", expand = True)
         bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_jcj.create_image( 0, 0, image = bg3, anchor = "nw")
+        root_jcj.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         crea_button(root_jcj,canvas_jcj)
         spawn_allumettes(canvas_jcj)
         appelle_joueur(canvas_jcj)
@@ -148,7 +190,7 @@ def select_difficult():
     Apply a background image, etc.
     Then we call the function that implements all the essential elements for the choice (buttons, titles, etc.)
     '''
-    global count_window_open
+    global count_window_open, root_selection
     if count_window_open == 0 :
         root_selection = Toplevel(root)
         root_selection.title("Veuillez selectionner votre niveau de difficulté...")
@@ -162,6 +204,7 @@ def select_difficult():
         bg6 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_selection.create_image( 0, 0, image = bg6, anchor = "nw")
         selection_button(root_selection, canvas_selection)
+        root_selection.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         mainloop()
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert une fenêtre de jeu !\n\nFerme celle qui est ouverte d'abord...")
@@ -188,7 +231,7 @@ def open_mode_oco():
 
     The procedure then calls other functions to display all the elements essential to the game!
     '''
-    global count_window_open
+    global count_window_open, root_oco
     if count_window_open == 0 :
         root_oco = Toplevel(root)
         root_oco.title("Partie entre deux ordinateurs")
@@ -201,6 +244,7 @@ def open_mode_oco():
         canvas_oco.pack(fill = "both", expand = True)
         bg5 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_oco.create_image( 0, 0, image = bg5, anchor = "nw")
+        root_oco.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         appelle_robot_oco(canvas_oco, root_oco)
         spawn_allumettes_oco(canvas_oco)
     else :
@@ -310,7 +354,7 @@ def suppr_allum(number, canvas_allum, root_correspondant):
     as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
     
     The function subtracts the number of matches taken from the number of matches remaining on the table.
-    It then calls the player who must play this turn using the "call_player()" function
+    It then calls the player who must play this turn using the "appel_joueur()" function
 
     Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
@@ -321,7 +365,7 @@ def suppr_allum(number, canvas_allum, root_correspondant):
 
     If the user manually closes the game, the thank you message is displayed!
     '''
-    global nb_allumettes, count_x, count_player, count_window_open
+    global nb_allumettes, count_x, count_player, count_window_open, allum_list
     nb_allumettes = nb_allumettes - number
     appelle_joueur(canvas_allum)
     if nb_allumettes == 2 :
@@ -354,10 +398,8 @@ def suppr_allum(number, canvas_allum, root_correspondant):
         count_x = 0
         count_player = 2
         count_window_open = 0
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 def appelle_joueur(canvas):
@@ -374,6 +416,7 @@ def appelle_joueur(canvas):
         d=canvas.create_text(540, 450, text="Joueur 2",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
+
 
 
 
@@ -448,7 +491,7 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 2:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
@@ -457,18 +500,16 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 1:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+            reset_count_win_game()
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 def appelle_robot(canvas, root_correspondant):
@@ -506,7 +547,7 @@ def appelle_robot(canvas, root_correspondant):
             nb_robot = 1
         elif nb_allumettes == 1 :           # If there is only one match left then the robot is obliged to take it and concede defeat... I close the game afterwards.
             messagebox.showinfo("Gagné ! :)","Le robot est obligé de prendre la dernière allumette, bien joué !")
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(3000, suppr_allum_robot_simple, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
@@ -521,6 +562,7 @@ def open_mode_jco_simple(root_precedent):
 
     The function then calls other functions to display all the elements essential to the game!
     '''
+    global root_jco_simple
     root_precedent.destroy()
     root_jco_simple = Toplevel(root)
     root_jco_simple.title("Partie entre un joueur et un ordinateur (difficulté = simple)")
@@ -532,6 +574,7 @@ def open_mode_jco_simple(root_precedent):
     canvas_jco_simple.pack(fill = "both", expand = True)
     bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_simple.create_image( 0, 0, image = bg4, anchor = "nw")
+    root_jco_simple.protocol('WM_DELETE_WINDOW', reset_count_win_game)
     crea_button_robot_simple(root_jco_simple, canvas_jco_simple)
     spawn_allumettes(canvas_jco_simple)
 
@@ -604,7 +647,7 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 2:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
@@ -613,18 +656,17 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 1:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Perdu ! :(","Tu es obligé de prendre la dernière allumette, dommage...")
-            msg_remerciment()
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+            reset_count_win_game()
+
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 def appelle_robot_difficile(canvas, root_correspondant):
@@ -663,7 +705,7 @@ def appelle_robot_difficile(canvas, root_correspondant):
             nb_robot = 1
         if nb_allumettes == 1 :
             messagebox.showinfo("Gagné ! :)","Le robot est obligé de prendre la dernière allumette, bien joué !")
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
@@ -678,6 +720,7 @@ def open_mode_jco_difficile(root_precedent):
 
     The function then calls other functions to display all the elements essential to the game!
     '''
+    global root_jco_difficile
     root_precedent.destroy()
     root_jco_difficile = Toplevel(root)
     root_jco_difficile.title("Partie entre un joueur et un ordinateur (difficulté = difficile)")
@@ -689,6 +732,7 @@ def open_mode_jco_difficile(root_precedent):
     canvas_jco_difficile.pack(fill = "both", expand = True)
     bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_difficile.create_image( 0, 0, image = bg4, anchor = "nw")
+    root_jco_difficile.protocol('WM_DELETE_WINDOW', reset_count_win_game)
     crea_button_robot_difficile(root_jco_difficile,canvas_jco_difficile)
     spawn_allumettes(canvas_jco_difficile)
 
@@ -839,6 +883,7 @@ def appelle_robot_oco(canvas, root_correspondant):
 
 
     
+
 
 
 # If the user closes the homepage, it displays the thank you message:
