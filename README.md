@@ -35,7 +35,7 @@ This is the game mode that starts if you select the player vs computer mode with
 - ### Player vs. Computer (algorithmic) :
 This is the game mode that starts if you select the player vs computer mode with the hard difficulty. The robot here picks matches algorithmically, and logically. Here is the logic code:
 ```python
-if nb_allumettes % 4 == 3:                  # Here unlike the simple difficulty, I algorithmically determine the number of matches that the robot must take to be sure to win!
+if nb_allumettes % 4 == 3:                 
             nb_robot = 2
         elif nb_allumettes % 4 == 2:
             nb_robot = 1
@@ -46,7 +46,7 @@ if nb_allumettes % 4 == 3:                  # Here unlike the simple difficulty,
         if nb_allumettes == 1 :
             messagebox.showinfo("Won ! :)","The robot is forced to take the last match, well done!")
             msg_remerciment()
-        canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # This function allows you to execute the "suppr_allum_robot_simple()" function after 3000ms and with my number which has just been determined, as an argument.
+        canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             
 ```
 - ### Computer vs. Computer (random) :
 The robots here have exactly the same logic as in [the player vs computer simple difficulty mode](https://github.com/4strium/Game-of-Matches#player-vs-computer-random-), i.e. random until there are only 3 matches left.
