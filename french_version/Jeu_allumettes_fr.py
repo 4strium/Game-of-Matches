@@ -246,7 +246,7 @@ def open_mode_oco():
         canvas_oco.create_image( 0, 0, image = bg5, anchor = "nw")
         root_oco.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         appelle_robot_oco(canvas_oco, root_oco)
-        spawn_allumettes_oco(canvas_oco)
+        spawn_allumettes(canvas_oco, " Marcus ")
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert une fenêtre de jeu !\n\nFerme celle qui est ouverte d'abord...")
 
@@ -309,7 +309,7 @@ def crea_button(racine,canvas):
     return button1_window, button2_window, button3_window
 
 
-def spawn_allumettes(canvas):
+def spawn_allumettes(canvas, first_name=" Vous "):
     '''
     Function that receives as a parameter the canvas where it must display the images of matches.
 
@@ -318,7 +318,7 @@ def spawn_allumettes(canvas):
     It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
     '''
     global allum_list
-    e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
+    e=canvas.create_text(540, 450, text=first_name, font=("Helvetica", 40), fill="blue")
     r=canvas.create_rectangle(canvas.bbox(e),fill="white")
     canvas.tag_lower(r, e)
     allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
@@ -523,15 +523,27 @@ def appelle_robot(canvas, root_correspondant):
 
     (See comments directly in the code to understand the logic)
     '''
-    global count_player, nb_robot, count_x, count_window_open
+    global count_player, nb_robot, count_x, count_window_open, d, f, e, r
     if count_player % 2 == 1 :
+        try :
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+
         button1['state'] = NORMAL               # VERY useful command that allows you to change the state of the buttons
         button2['state'] = NORMAL
         button3['state'] = NORMAL
-        e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text="Vous",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
         d=canvas.create_text(540, 450, text=" ROBOT ",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
@@ -682,13 +694,26 @@ def appelle_robot_difficile(canvas, root_correspondant):
     '''
     global count_player, nb_robot, count_x, count_window_open
     if count_player % 2 == 1 :
+        try :
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+
         button1['state'] = NORMAL
         button2['state'] = NORMAL
         button3['state'] = NORMAL
-        e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text=" Vous ",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
+
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
         d=canvas.create_text(540, 450, text=" ROBOT ",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
@@ -745,49 +770,6 @@ def open_mode_jco_difficile(root_precedent):
 
 
 
-
-
-def spawn_allumettes_oco(canvas):
-    '''
-    Function that receives as a parameter the canvas where it must display the images of matches.
-
-    It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
-
-    This function is strictly the same as the classic one, only the 1st player is replaced by Marcus the robot. :)
-    '''
-    global allum_list
-    e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
-    r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-    canvas.tag_lower(r, e)
-    allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
-    allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
-    allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
-    allum3 = canvas.create_image(70, 100, image = allum_img, anchor = 'nw')
-    allum4 = canvas.create_image(120, 100, image = allum_img, anchor = 'nw')
-    allum5 = canvas.create_image(170, 100, image = allum_img, anchor = 'nw')
-    allum6 = canvas.create_image(220, 100, image = allum_img, anchor = 'nw')
-    allum7 = canvas.create_image(270, 100, image = allum_img, anchor = 'nw')
-    allum8 = canvas.create_image(320, 100, image = allum_img, anchor = 'nw')
-    allum9 = canvas.create_image(370, 100, image = allum_img, anchor = 'nw')
-    allum10 = canvas.create_image(420, 100, image = allum_img, anchor = 'nw')
-    allum11 = canvas.create_image(470, 100, image = allum_img, anchor = 'nw')
-    allum12 = canvas.create_image(520, 100, image = allum_img, anchor = 'nw')
-    allum13 = canvas.create_image(570, 100, image = allum_img, anchor = 'nw')
-    allum14 = canvas.create_image(620, 100, image = allum_img, anchor = 'nw')
-    allum15 = canvas.create_image(670, 100, image = allum_img, anchor = 'nw')
-    allum16 = canvas.create_image(720, 100, image = allum_img, anchor = 'nw')
-    allum17 = canvas.create_image(770, 100, image = allum_img, anchor = 'nw')
-    allum18 = canvas.create_image(820, 100, image = allum_img, anchor = 'nw')
-    allum19 = canvas.create_image(870, 100, image = allum_img, anchor = 'nw')
-    allum20 = canvas.create_image(920, 100, image = allum_img, anchor = 'nw')
-    allum21 = canvas.create_image(970, 100, image = allum_img, anchor = 'nw')
-    allum_list = [allum1, allum2, allum3, allum4, allum5, allum6, allum7, allum8, allum9, allum10, allum11, allum12, allum13, allum14,
-    allum15, allum16, allum17, allum18, allum19, allum20, allum21]
-    mainloop()   
-
-
-
-
 def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
     '''
     Fairly complex function that accepts as a parameter the number of matches to be removed "number" depending on the button pressed (1 or 2 or 3) as well as the canvas of the current game mode "canvas_allum" (where are the images of matches to delete) 
@@ -831,7 +813,7 @@ def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
         appelle_robot_oco(canvas_allum, root_correspondant)
         count_player+=1
     try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
+        root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
     except:
         pass
 
@@ -850,7 +832,13 @@ def appelle_robot_oco(canvas, root_correspondant):
     '''
     global count_player, nb_robot
     if count_player % 2 == 1 :
-        e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
+        try :
+            canvas.delete(d)
+            canvas.delete(f)
+        except :
+            pass
+
+        e=canvas.create_text(540, 450, text=" Marcus ",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
         nb_robot=randint(1,3)
@@ -865,7 +853,13 @@ def appelle_robot_oco(canvas, root_correspondant):
             msg_remerciment()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
     if count_player % 2 == 0 :
-        d=canvas.create_text(540, 450, text="Donald",font=("Helvetica", 40), fill="red")
+        try :
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+        
+        d=canvas.create_text(540, 450, text=" Donald ",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
         nb_robot=randint(1,3)
