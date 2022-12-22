@@ -37,6 +37,7 @@ allum_list=[]                                                   # List that will
 count_player = 2                                                # Counter that allows the program to know which player (or robot) it's the turn to play!
 count_window_open = 0                                           # Counter that allows the program to know how many game windows, the user has opened !
 count_window_regles = 0                                         # Counter that allows the program to know how many rules windows, the user has opened !
+name_defined = False
 
 # I import and display a background image for my homepage:
 bg = PhotoImage(file = "img\Background_IMAGE.png")
@@ -79,12 +80,16 @@ def reset_count_win_game():
     '''
     Procedure that resets the open game window counter
     '''
-    global count_window_open, root_jcj, root_selection, root_oco, nb_allumettes, count_x, count_player, allum_list, root_jco_difficile
+    global count_window_open, root_name, root_jcj, root_selection, root_oco, nb_allumettes, count_x, count_player, allum_list, root_jco_difficile
     count_window_open = 0
     nb_allumettes = 21
     allum_list = []
     count_x = 0
     count_player = 0
+    try :
+        root_name.destroy()
+    except :
+        pass
     try :
         root_jcj.destroy()
     except :
@@ -135,11 +140,19 @@ def open_regles():
         messagebox.showinfo("Erreur","Tu as déjà ouvert les règles du jeu !")
 
 
+def switch_jcj():
+    global name_defined
+    if name_defined == False :
+        name_defined = True
+        choose_name()
+    else :
+        open_mode_jcj(player1, player2)
+
 def validation_name_user(root_to_close):
     """
     
     """
-    global count_window_open
+    global count_window_open, player1, player2
     count_window_open = 0
 
     player1 = entry1.get()
@@ -150,6 +163,11 @@ def validation_name_user(root_to_close):
     if len(player2) > 0 :
         player2 = player2[:14]
 
+    if len(player1) == 0 :
+        player1 = "Joueur 1"
+    if len(player2) == 0 :
+        player2 = "Joueur 2"
+
     player1 = " " + player1 + " "
     player2 = " " + player2 + " "
 
@@ -159,7 +177,7 @@ def validation_name_user(root_to_close):
 
 
 def choose_name():
-    global count_window_open, entry1, entry2
+    global root_name, count_window_open, entry1, entry2
     if count_window_open == 0 :
         root_name = Toplevel(root)
         root_name.title("Choisissez vos noms...")
@@ -173,7 +191,7 @@ def choose_name():
         bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_name.create_image( 0, 0, image = bg3, anchor = "nw")
         
-        i=canvas_name.create_text(540.45, 137, text='Choisissez vos surnoms :', font=("Helvetica", 40), fill="white")
+        i=canvas_name.create_text(540.45, 137, text='Choisissez vos surnoms pour la partie :', font=("Helvetica", 40), fill="white")
         r=canvas_name.create_rectangle(canvas_name.bbox(i),fill="#00bdfb")                                                              
         canvas_name.tag_lower(r,i)
 
@@ -194,6 +212,8 @@ def choose_name():
 
         validation_btn = Button(root_name, text="Valider", font=("Helvetica", 25), fg='white', bg="#00bdfb", height = 1, width = 10, command=lambda *args:validation_name_user(root_name))
         canvas_name.create_window(425, 550, anchor='nw', window=validation_btn)
+
+        root_name.protocol('WM_DELETE_WINDOW', reset_count_win_game)
 
         root_name.mainloop()
     else :
@@ -311,7 +331,7 @@ button_rgl_window = canvas_accueil.create_window(855, 640, anchor='nw', window=b
 
 # Add the different buttons to select the game mode:
 
-button_jcj = Button(root, text="Joueur 1 contre Joueur 2", command=choose_name, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
+button_jcj = Button(root, text="Joueur 1 contre Joueur 2", command=switch_jcj, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
 button_jcj_window = canvas_accueil.create_window(100, 400, anchor='nw', window=button_jcj)
 
 button_jco = Button(root, text="Joueur contre Ordinateur", command=select_difficult, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
@@ -319,9 +339,6 @@ button_jco_window = canvas_accueil.create_window(640, 400, anchor='nw', window=b
 
 button_oco = Button(root, text="Ordinateur contre Ordinateur", command=open_mode_oco, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
 button_oco_window = canvas_accueil.create_window(375, 520, anchor='nw', window=button_oco)
-
-
-
 
 
 
@@ -581,7 +598,7 @@ def appelle_robot(canvas, root_correspondant):
         button1['state'] = NORMAL               # VERY useful command that allows you to change the state of the buttons
         button2['state'] = NORMAL
         button3['state'] = NORMAL
-        e=canvas.create_text(540, 450, text="Vous",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text=" Vous ",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
@@ -897,7 +914,7 @@ def appelle_robot_oco(canvas, root_correspondant):
             nb_robot = 1
         elif nb_allumettes == 1 :
             messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Donald !")                 # So I can know which robot won and therefore which robot lost!
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
     if count_player % 2 == 0 :
         try :
@@ -918,7 +935,7 @@ def appelle_robot_oco(canvas, root_correspondant):
             nb_robot = 1
         elif nb_allumettes == 1 :
             messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Marcus !")                 # So I can know which robot won and therefore which robot lost!
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
 
 
