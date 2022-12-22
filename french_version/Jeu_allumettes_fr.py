@@ -38,6 +38,8 @@ count_player = 2                                                # Counter that a
 count_window_open = 0                                           # Counter that allows the program to know how many game windows, the user has opened !
 count_window_regles = 0                                         # Counter that allows the program to know how many rules windows, the user has opened !
 name_defined = False
+player1 = None
+player2 = None
 
 # I import and display a background image for my homepage:
 bg = PhotoImage(file = "img\Background_IMAGE.png")
@@ -143,7 +145,6 @@ def open_regles():
 def switch_jcj():
     global name_defined
     if name_defined == False :
-        name_defined = True
         choose_name()
     else :
         open_mode_jcj(player1, player2)
@@ -152,8 +153,9 @@ def validation_name_user(root_to_close):
     """
     
     """
-    global count_window_open, player1, player2
+    global count_window_open, name_defined, player1, player2
     count_window_open = 0
+    name_defined = True
 
     player1 = entry1.get()
     player2 = entry2.get()
@@ -313,7 +315,12 @@ def open_mode_oco():
         canvas_oco.create_image( 0, 0, image = bg5, anchor = "nw")
         root_oco.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         appelle_robot_oco(canvas_oco, root_oco)
-        spawn_allumettes(canvas_oco, " Marcus ")
+
+        if player1 == " Joueur 1 " or player1 == None:
+            name_robot_1 = " Marcus "
+        else :
+            name_robot_1 = player1
+        spawn_allumettes(canvas_oco, name_robot_1)
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert une fenêtre de jeu !\n\nFerme celle qui est ouverte d'abord...")
 
@@ -381,10 +388,10 @@ def spawn_allumettes(canvas, first_name=" Vous "):
 
     It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
     '''
-    global allum_list
-    e=canvas.create_text(540, 450, text=first_name, font=("Helvetica", 40), fill="blue")
-    r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-    canvas.tag_lower(r, e)
+    global allum_list, first_label, second_label
+    first_label=canvas.create_text(540, 450, text=first_name, font=("Helvetica", 40), fill="blue")
+    second_label=canvas.create_rectangle(canvas.bbox(first_label),fill="white")
+    canvas.tag_lower(second_label, first_label)
     allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
     allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
     allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
@@ -471,12 +478,30 @@ def appelle_joueur(canvas, name1, name2):
     Function that admits the canvas of the current game mode "canvas" to display the player whose turn 
     it's according to the turn counter "count_player" (if it's even or odd).
     '''
-    global count_player
+    global count_player, e, r, d, f
     if count_player % 2 == 1 :
+        try:
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+
         e=canvas.create_text(540, 450, text=name1, font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try:
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
         d=canvas.create_text(540, 450, text=name2, font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
@@ -539,8 +564,11 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
     appelle_robot(canvas_allum, root_correspondant)
-    if nb_allumettes == 2 :
+    if nb_allumettes == 3 :
         button3['state'] = DISABLED
+    elif nb_allumettes == 2 :
+        button3['state'] = DISABLED
+        button2['state'] = DISABLED
     elif nb_allumettes == 1: 
         button3['state'] = DISABLED
         button2['state'] = DISABLED
@@ -602,6 +630,12 @@ def appelle_robot(canvas, root_correspondant):
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
         try :
             canvas.delete(e)
             canvas.delete(r)
@@ -707,8 +741,11 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
     appelle_robot_difficile(canvas_allum, root_correspondant)
-    if nb_allumettes == 2 :
+    if nb_allumettes == 3 :
         button3['state'] = DISABLED
+    elif nb_allumettes == 2 :
+        button3['state'] = DISABLED
+        button2['state'] = DISABLED
     elif nb_allumettes == 1: 
         button3['state'] = DISABLED
         button2['state'] = DISABLED
@@ -772,6 +809,12 @@ def appelle_robot_difficile(canvas, root_correspondant):
         canvas.tag_lower(r, e)
 
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
         try :
             canvas.delete(e)
             canvas.delete(r)
@@ -894,17 +937,28 @@ def appelle_robot_oco(canvas, root_correspondant):
 
     (See comments directly in the code to understand the logic)
     '''
-    global count_player, nb_robot
+    global count_player, nb_robot, vava, wiwi, sexy, girl
+
+    if player1 == " Joueur 1 " or player1 == None:
+        name_robot_1 = " Marcus "
+    else :
+        name_robot_1 = player1
+    
+    if player2 == " Joueur 2 " or player2 == None:
+        name_robot_2 = " Donald "
+    else :
+        name_robot_2 = player2
+
     if count_player % 2 == 1 :
         try :
-            canvas.delete(d)
-            canvas.delete(f)
+            canvas.delete(sexy)
+            canvas.delete(girl)
         except :
             pass
 
-        e=canvas.create_text(540, 450, text=" Marcus ",font=("Helvetica", 40), fill="blue")
-        r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-        canvas.tag_lower(r, e)
+        vava=canvas.create_text(540, 450, text=name_robot_1,font=("Helvetica", 40), fill="blue")
+        wiwi=canvas.create_rectangle(canvas.bbox(vava),fill="white")
+        canvas.tag_lower(wiwi, vava)
         nb_robot=randint(1,3)
         while nb_robot > nb_allumettes :
             nb_robot=randint(1,3)
@@ -913,19 +967,26 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Donald !")                 # So I can know which robot won and therefore which robot lost!
+            text_msg_1 = "AH MINCE J'AI PERDU, bien joué" + name_robot_2 + "!"
+            messagebox.showinfo("FINI !",text_msg_1)                 # So I can know which robot won and therefore which robot lost!
             reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
     if count_player % 2 == 0 :
         try :
-            canvas.delete(e)
-            canvas.delete(r)
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try :
+            canvas.delete(vava)
+            canvas.delete(wiwi)
         except :
             pass
         
-        d=canvas.create_text(540, 450, text=" Donald ",font=("Helvetica", 40), fill="red")
-        f=canvas.create_rectangle(canvas.bbox(d),fill="white")
-        canvas.tag_lower(f, d)
+        sexy=canvas.create_text(540, 450, text=name_robot_2,font=("Helvetica", 40), fill="red")
+        girl=canvas.create_rectangle(canvas.bbox(sexy),fill="white")
+        canvas.tag_lower(girl, sexy)
         nb_robot=randint(1,3)
         while nb_robot > nb_allumettes :
             nb_robot=randint(1,3)
@@ -934,7 +995,8 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINI !","AH MINCE J'AI PERDU, bien joué Marcus !")                 # So I can know which robot won and therefore which robot lost!
+            text_msg_2 = "AH MINCE J'AI PERDU, bien joué" + name_robot_1 + "!"
+            messagebox.showinfo("FINI !",text_msg_2)                 # So I can know which robot won and therefore which robot lost!
             reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
 
