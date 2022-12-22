@@ -37,6 +37,9 @@ allum_list=[]                                                   # List that will
 count_player = 2                                                # Counter that allows the program to know which player (or robot) it's the turn to play!
 count_window_open = 0                                           # Counter that allows the program to know how many game windows, the user has opened !
 count_window_regles = 0                                         # Counter that allows the program to know how many rules windows, the user has opened !
+name_defined = False
+player1 = None
+player2 = None
 
 # I import and display a background image for my homepage:
 bg = PhotoImage(file = "img\Background_IMAGE.png")
@@ -65,25 +68,48 @@ canvas_accueil.tag_lower(l,k)
 #                                                                                     HOMEPAGE                                                                                                               #
 #                                                                                                                                                                                                            #
 
-# Definition of a function that creates the buttons to take matches:
-def crea_button(racine,canvas):
+def reset_count_win_reg():
     '''
-    Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
-
-    Each button press then invokes a related match delete function.
-
-    It returns the characteristics and the location of the buttons on the canvas.
+    Procedure that resets the open rules counter
     '''
-    v=canvas.create_text(540, 525, text="How many match(es) do you take?",font=("Helvetica", 35), fill="white")
-    w=canvas.create_rectangle(canvas.bbox(v),fill="#00bdfb")
-    canvas.tag_lower(w,v)
-    button1 = Button(racine, text="1 match", command=lambda *args: suppr_allum(1, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button1_window = canvas.create_window(75, 560, anchor='nw', window=button1)
-    button2 = Button(racine, text="2 matches", command=lambda *args: suppr_allum(2, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button2_window = canvas.create_window(430, 560, anchor='nw', window=button2)
-    button3 = Button(racine, text="3 matches", command=lambda *args: suppr_allum(3, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button3_window = canvas.create_window(780, 560, anchor='nw', window=button3)
-    return button1_window, button2_window, button3_window
+    global count_window_regles, root_regles
+    count_window_regles = 0
+    root_regles.destroy()
+
+def reset_count_win_game():
+    '''
+    Procedure that resets the open game window counter
+    '''
+    global count_window_open, root_name, root_jcj, root_selection, root_oco, nb_allumettes, count_x, count_player, allum_list, root_jco_difficile
+    count_window_open = 0
+    nb_allumettes = 21
+    allum_list = []
+    count_x = 0
+    count_player = 0
+    try :
+        root_name.destroy()
+    except :
+        pass
+    try :
+        root_jcj.destroy()
+    except :
+        pass
+    try :
+        root_selection.destroy()
+    except :
+        pass
+    try :
+        root_oco.destroy()
+    except :
+        pass
+    try :
+        root_jco_simple.destroy()
+    except :
+        pass
+    try :
+        root_jco_difficile.destroy()
+    except :
+        pass
 
 
 # Defining a function that opens the game rules window:
@@ -112,8 +138,89 @@ def open_regles():
     else :
         messagebox.showinfo("Error","You have already opened the rules of the game!")
 
+
+def switch_jcj():
+    global name_defined
+    if name_defined == False :
+        choose_name()
+    else :
+        open_mode_jcj(player1, player2)
+
+def validation_name_user(root_to_close):
+    """
+    
+    """
+    global count_window_open, name_defined, player1, player2
+    count_window_open = 0
+    name_defined = True
+
+    player1 = entry1.get()
+    player2 = entry2.get()
+
+    if len(player1) > 0 :
+        player1 = player1[:14]
+    if len(player2) > 0 :
+        player2 = player2[:14]
+
+    if len(player1) == 0 :
+        player1 = "Player 1"
+    if len(player2) == 0 :
+        player2 = "Player 2"
+
+    player1 = " " + player1 + " "
+    player2 = " " + player2 + " "
+
+    root_to_close.destroy()
+
+    open_mode_jcj(player1, player2)
+
+
+def choose_name():
+    global root_name, count_window_open, entry1, entry2
+    if count_window_open == 0 :
+        root_name = Toplevel(root)
+        root_name.title("Choose your names...")
+        root_name.geometry("1080x720")
+        root_name.minsize(1080, 720)
+        root_name.maxsize(1080, 720)
+        count_window_open+=1
+        # Import and display a background image:
+        canvas_name = Canvas(root_name, width = 1080, height = 720)
+        canvas_name.pack(fill = "both", expand = True)
+        bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
+        canvas_name.create_image( 0, 0, image = bg3, anchor = "nw")
+        
+        i=canvas_name.create_text(540.45, 137, text='Choose your nicknames for the game:', font=("Helvetica", 40), fill="white")
+        r=canvas_name.create_rectangle(canvas_name.bbox(i),fill="#00bdfb")                                                              
+        canvas_name.tag_lower(r,i)
+
+
+        q=canvas_name.create_text(530, 265, text=' Player 1 : ', font=("Helvetica", 24), fill="blue")
+        s=canvas_name.create_rectangle(canvas_name.bbox(q),fill="white")                                                              
+        canvas_name.tag_lower(s,q)
+        entry1 = Entry(root_name, font=("Helvetica", 24), width=14, bd=0)
+        canvas_name.create_window(400, 290, anchor='nw', window=entry1)
+        entry1.focus()
+
+        x=canvas_name.create_text(530, 400, text=' Player 2 : ', font=("Helvetica", 24), fill="red")
+        c=canvas_name.create_rectangle(canvas_name.bbox(x),fill="white")                                                              
+        canvas_name.tag_lower(c,x)
+        entry2 = Entry(root_name, font=("Helvetica", 24), width=14, bd=0)
+        canvas_name.create_window(400, 425, anchor='nw', window=entry2)
+        
+
+        validation_btn = Button(root_name, text="Validate", font=("Helvetica", 25), fg='white', bg="#00bdfb", height = 1, width = 10, command=lambda *args:validation_name_user(root_name))
+        canvas_name.create_window(425, 550, anchor='nw', window=validation_btn)
+
+        root_name.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
+        root_name.mainloop()
+    else :
+        messagebox.showinfo("Error","You already opened a game window!\n\nClose the open one first...")
+
+
 # Defining a function that opens the Player 1 vs. Player 2 mode window:
-def open_mode_jcj():
+def open_mode_jcj(name1, name2):
     '''
     Procedure that defines what happens if the user presses the "Player vs. Player" button.
 
@@ -121,7 +228,7 @@ def open_mode_jcj():
 
     The procedure then calls other functions to display all the elements essential to the game!
     '''
-    global nb_allumettes, count_x, count_window_open
+    global nb_allumettes, count_x, count_window_open, root_jcj
     if count_window_open == 0 :
         root_jcj = Toplevel(root)
         root_jcj.title("Game between two players")
@@ -134,9 +241,10 @@ def open_mode_jcj():
         canvas_jcj.pack(fill = "both", expand = True)
         bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_jcj.create_image( 0, 0, image = bg3, anchor = "nw")
-        crea_button(root_jcj,canvas_jcj)
-        spawn_allumettes(canvas_jcj)
-        appelle_joueur(canvas_jcj)
+        root_jcj.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+        crea_button(root_jcj,canvas_jcj, name1, name2)
+        spawn_allumettes(canvas_jcj, name1)
+        appelle_joueur(canvas_jcj, name1, name2)
     else :
         messagebox.showinfo("Error","You already opened a game window!\n\nClose the open one first...") 
 
@@ -148,7 +256,7 @@ def select_difficult():
     Apply a background image, etc.
     Then we call the function that implements all the essential elements for the choice (buttons, titles, etc.)
     '''
-    global count_window_open
+    global count_window_open, root_selection
     if count_window_open == 0 :
         root_selection = Toplevel(root)
         root_selection.title("Please select your level of difficulty...")
@@ -162,6 +270,7 @@ def select_difficult():
         bg6 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_selection.create_image( 0, 0, image = bg6, anchor = "nw")
         selection_button(root_selection, canvas_selection)
+        root_selection.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         mainloop()
     else :
         messagebox.showinfo("Error","You already opened a game window!\n\nClose the open one first...")
@@ -188,7 +297,7 @@ def open_mode_oco():
 
     The procedure then calls other functions to display all the elements essential to the game!
     '''
-    global count_window_open
+    global count_window_open, root_oco
     if count_window_open == 0 :
         root_oco = Toplevel(root)
         root_oco.title("Game between two computers")
@@ -201,8 +310,14 @@ def open_mode_oco():
         canvas_oco.pack(fill = "both", expand = True)
         bg5 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_oco.create_image( 0, 0, image = bg5, anchor = "nw")
+        root_oco.protocol('WM_DELETE_WINDOW', reset_count_win_game)
         appelle_robot_oco(canvas_oco, root_oco)
-        spawn_allumettes_oco(canvas_oco)
+
+        if player1 == " Player 1 " or player1 == None:
+            name_robot_1 = " Marcus "
+        else :
+            name_robot_1 = player1
+        spawn_allumettes(canvas_oco, name_robot_1)
     else :
         messagebox.showinfo("Error","You already opened a game window!\n\nClose the open one first...")
 
@@ -220,7 +335,7 @@ button_rgl_window = canvas_accueil.create_window(855, 640, anchor='nw', window=b
 
 # Add the different buttons to select the game mode:
 
-button_jcj = Button(root, text="Player 1 versus Player 2", command=open_mode_jcj, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
+button_jcj = Button(root, text="Player 1 versus Player 2", command=switch_jcj, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
 button_jcj_window = canvas_accueil.create_window(100, 400, anchor='nw', window=button_jcj)
 
 button_jco = Button(root, text="Player versus Computer", command=select_difficult, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
@@ -244,7 +359,7 @@ button_oco_window = canvas_accueil.create_window(375, 520, anchor='nw', window=b
 #                                                                                                                                                                                                            #
 
 # Definition of a function that creates the buttons to take matches:
-def crea_button(racine,canvas):
+def crea_button(racine,canvas, name1, name2):
     '''
     Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
@@ -256,16 +371,16 @@ def crea_button(racine,canvas):
     v=canvas.create_text(540, 525, text="How many match(es) do you take?",font=("Helvetica", 35), fill="white")
     w=canvas.create_rectangle(canvas.bbox(v),fill="#00bdfb")
     canvas.tag_lower(w,v)
-    button1 = Button(racine, text="1 match", command=lambda *args: suppr_allum(1, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button1 = Button(racine, text="1 match", command=lambda *args: suppr_allum(1, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button1_window = canvas.create_window(75, 560, anchor='nw', window=button1)
-    button2 = Button(racine, text="2 matches", command=lambda *args: suppr_allum(2, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button2 = Button(racine, text="2 matches", command=lambda *args: suppr_allum(2, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button2_window = canvas.create_window(430, 560, anchor='nw', window=button2)
-    button3 = Button(racine, text="3 matches", command=lambda *args: suppr_allum(3, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button3 = Button(racine, text="3 matches", command=lambda *args: suppr_allum(3, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button3_window = canvas.create_window(780, 560, anchor='nw', window=button3)
     return button1_window, button2_window, button3_window
 
 
-def spawn_allumettes(canvas):
+def spawn_allumettes(canvas, first_name=" You "):
     '''
     Function that receives as a parameter the canvas where it must display the images of matches.
 
@@ -273,10 +388,10 @@ def spawn_allumettes(canvas):
 
     It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
     '''
-    global allum_list
-    e=canvas.create_text(540, 450, text="Player 1",font=("Helvetica", 40), fill="blue")
-    r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-    canvas.tag_lower(r, e)
+    global allum_list, first_label, second_label
+    first_label=canvas.create_text(540, 450, text=first_name,font=("Helvetica", 40), fill="blue")
+    second_label=canvas.create_rectangle(canvas.bbox(first_label),fill="white")
+    canvas.tag_lower(second_label, first_label)
     allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
     allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
     allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
@@ -304,13 +419,13 @@ def spawn_allumettes(canvas):
     mainloop()
 
 
-def suppr_allum(number, canvas_allum, root_correspondant):
+def suppr_allum(number, canvas_allum, root_correspondant, name1, name2):
     '''
     Quite complex function which accepts as a parameter the number of matches to be deleted "number" according to the button pressed (1 or 2 or 3)
     as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
     
     The function subtracts the number of matches taken from the number of matches remaining on the table.
-    It then calls the player who must play this turn using the "call_player()" function
+    It then calls the player who must play this turn using the "appelle_joueur()" function
 
     Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
@@ -321,9 +436,9 @@ def suppr_allum(number, canvas_allum, root_correspondant):
 
     If the user manually closes the game, the thank you message is displayed!
     '''
-    global nb_allumettes, count_x, count_player, count_window_open
+    global nb_allumettes, count_x, count_player, count_window_open, allum_list
     nb_allumettes = nb_allumettes - number
-    appelle_joueur(canvas_allum)
+    appelle_joueur(canvas_allum, name1, name2)
     if nb_allumettes == 2 :
         button3['state'] = DISABLED
     elif nb_allumettes == 1: 
@@ -354,26 +469,43 @@ def suppr_allum(number, canvas_allum, root_correspondant):
         count_x = 0
         count_player = 2
         count_window_open = 0
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
 
 
-def appelle_joueur(canvas):
+
+def appelle_joueur(canvas, name1, name2):
     '''
     Function that admits the canvas of the current game mode "canvas" to display the player whose turn 
     it's according to the turn counter "count_player" (if it's even or odd).
     '''
-    global count_player
+    global count_player, e, r, d, f
     if count_player % 2 == 1 :
-        e=canvas.create_text(540, 450, text="Player 1",font=("Helvetica", 40), fill="blue")
+        try:
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+
+        e=canvas.create_text(540, 450, text=name1, font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
-        d=canvas.create_text(540, 450, text="Player 2",font=("Helvetica", 40), fill="red")
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try:
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
+        d=canvas.create_text(540, 450, text=name2, font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
+
 
 
 
@@ -432,8 +564,11 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
     appelle_robot(canvas_allum, root_correspondant)
-    if nb_allumettes == 2 :
+    if nb_allumettes == 3 :
         button3['state'] = DISABLED
+    elif nb_allumettes == 2 :
+        button3['state'] = DISABLED
+        button2['state'] = DISABLED
     elif nb_allumettes == 1: 
         button3['state'] = DISABLED
         button2['state'] = DISABLED
@@ -448,7 +583,7 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 2:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
@@ -457,18 +592,16 @@ def suppr_allum_robot_simple(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 1:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+            reset_count_win_game()
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 def appelle_robot(canvas, root_correspondant):
@@ -482,15 +615,33 @@ def appelle_robot(canvas, root_correspondant):
 
     (See comments directly in the code to understand the logic)
     '''
-    global count_player, nb_robot, count_x, count_window_open
+    global count_player, nb_robot, count_x, count_window_open, d, f, e, r
     if count_player % 2 == 1 :
+        try :
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+
         button1['state'] = NORMAL               # VERY useful command that allows you to change the state of the buttons
         button2['state'] = NORMAL
         button3['state'] = NORMAL
-        e=canvas.create_text(540, 450, text="Player 1",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text=" You ",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try :
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
         d=canvas.create_text(540, 450, text=" ROBOT ",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
@@ -506,7 +657,7 @@ def appelle_robot(canvas, root_correspondant):
             nb_robot = 1
         elif nb_allumettes == 1 :           # If there is only one match left then the robot is obliged to take it and concede defeat... I close the game afterwards.
             messagebox.showinfo("Won ! :)","The robot is forced to take the last match, well done!")
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(3000, suppr_allum_robot_simple, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
@@ -521,6 +672,7 @@ def open_mode_jco_simple(root_precedent):
 
     The function then calls other functions to display all the elements essential to the game!
     '''
+    global root_jco_simple
     root_precedent.destroy()
     root_jco_simple = Toplevel(root)
     root_jco_simple.title("Game between a player and a computer (difficulty = simple)")
@@ -532,6 +684,7 @@ def open_mode_jco_simple(root_precedent):
     canvas_jco_simple.pack(fill = "both", expand = True)
     bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_simple.create_image( 0, 0, image = bg4, anchor = "nw")
+    root_jco_simple.protocol('WM_DELETE_WINDOW', reset_count_win_game)
     crea_button_robot_simple(root_jco_simple, canvas_jco_simple)
     spawn_allumettes(canvas_jco_simple)
 
@@ -588,8 +741,11 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
     global nb_allumettes, count_x, count_player, count_window_open
     nb_allumettes = nb_allumettes - number
     appelle_robot_difficile(canvas_allum, root_correspondant)
-    if nb_allumettes == 2 :
+    if nb_allumettes == 3 :
         button3['state'] = DISABLED
+    elif nb_allumettes == 2 :
+        button3['state'] = DISABLED
+        button2['state'] = DISABLED
     elif nb_allumettes == 1: 
         button3['state'] = DISABLED
         button2['state'] = DISABLED
@@ -604,7 +760,7 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 2:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
@@ -613,18 +769,17 @@ def suppr_allum_robot_difficile(number, canvas_allum, root_correspondant):
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
+            reset_count_win_game()
     elif number == 1:
         canvas_allum.delete(allum_list[count_x])
         count_x+=1
         count_player+=1
         if nb_allumettes == 1 :
             messagebox.showinfo("Lost ! :(","You have to take the last match, too bad...")
-            msg_remerciment()
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+            reset_count_win_game()
+
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 def appelle_robot_difficile(canvas, root_correspondant):
@@ -640,13 +795,32 @@ def appelle_robot_difficile(canvas, root_correspondant):
     '''
     global count_player, nb_robot, count_x, count_window_open
     if count_player % 2 == 1 :
+        try :
+            canvas.delete(d)
+            canvas.delete(f)
+        except:
+            pass
+        
         button1['state'] = NORMAL
         button2['state'] = NORMAL
         button3['state'] = NORMAL
-        e=canvas.create_text(540, 450, text="Player 1",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text=" You ",font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
+
     if count_player % 2 == 0 :
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try :
+            canvas.delete(e)
+            canvas.delete(r)
+        except :
+            pass
+
         d=canvas.create_text(540, 450, text=" ROBOT ",font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
@@ -663,7 +837,7 @@ def appelle_robot_difficile(canvas, root_correspondant):
             nb_robot = 1
         if nb_allumettes == 1 :
             messagebox.showinfo("Won ! :)","The robot is forced to take the last match, well done!")
-            msg_remerciment()
+            reset_count_win_game()
         canvas.after(3000, suppr_allum_robot_difficile, nb_robot, canvas, root_correspondant)             # This function allows you to execute the "suppr_allum_robot_simple()" function seen just above after 3000ms and with my number which has just been determined, as an argument.
 
 
@@ -678,6 +852,7 @@ def open_mode_jco_difficile(root_precedent):
 
     The function then calls other functions to display all the elements essential to the game!
     '''
+    global root_jco_difficile
     root_precedent.destroy()
     root_jco_difficile = Toplevel(root)
     root_jco_difficile.title("Game between a player and a computer (difficulty = difficult)")
@@ -689,6 +864,7 @@ def open_mode_jco_difficile(root_precedent):
     canvas_jco_difficile.pack(fill = "both", expand = True)
     bg4 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
     canvas_jco_difficile.create_image( 0, 0, image = bg4, anchor = "nw")
+    root_jco_difficile.protocol('WM_DELETE_WINDOW', reset_count_win_game)
     crea_button_robot_difficile(root_jco_difficile,canvas_jco_difficile)
     spawn_allumettes(canvas_jco_difficile)
 
@@ -698,49 +874,6 @@ def open_mode_jco_difficile(root_precedent):
 ##############################################################################################################################################################################################################
 #                                                                                  COMPUTER VERSUS COMPUTER MODE                                                                                             #
 #                                                                                                                                                                                                            #
-
-
-
-
-
-def spawn_allumettes_oco(canvas):
-    '''
-    Function that receives as a parameter the canvas where it must display the images of matches.
-
-    It imports the image and displays it in several positions in the window, it puts all the data about the match images in an "allum_list".
-
-    This function is strictly the same as the classic one, only the 1st player is replaced by Marcus the robot. :)
-    '''
-    global allum_list
-    e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
-    r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-    canvas.tag_lower(r, e)
-    allum_img = ImageTk.PhotoImage(file = "img/allum_v1.png")
-    allum1 = canvas.create_image(-30, 100, image = allum_img, anchor = 'nw')
-    allum2 = canvas.create_image(20, 100, image = allum_img, anchor = 'nw')
-    allum3 = canvas.create_image(70, 100, image = allum_img, anchor = 'nw')
-    allum4 = canvas.create_image(120, 100, image = allum_img, anchor = 'nw')
-    allum5 = canvas.create_image(170, 100, image = allum_img, anchor = 'nw')
-    allum6 = canvas.create_image(220, 100, image = allum_img, anchor = 'nw')
-    allum7 = canvas.create_image(270, 100, image = allum_img, anchor = 'nw')
-    allum8 = canvas.create_image(320, 100, image = allum_img, anchor = 'nw')
-    allum9 = canvas.create_image(370, 100, image = allum_img, anchor = 'nw')
-    allum10 = canvas.create_image(420, 100, image = allum_img, anchor = 'nw')
-    allum11 = canvas.create_image(470, 100, image = allum_img, anchor = 'nw')
-    allum12 = canvas.create_image(520, 100, image = allum_img, anchor = 'nw')
-    allum13 = canvas.create_image(570, 100, image = allum_img, anchor = 'nw')
-    allum14 = canvas.create_image(620, 100, image = allum_img, anchor = 'nw')
-    allum15 = canvas.create_image(670, 100, image = allum_img, anchor = 'nw')
-    allum16 = canvas.create_image(720, 100, image = allum_img, anchor = 'nw')
-    allum17 = canvas.create_image(770, 100, image = allum_img, anchor = 'nw')
-    allum18 = canvas.create_image(820, 100, image = allum_img, anchor = 'nw')
-    allum19 = canvas.create_image(870, 100, image = allum_img, anchor = 'nw')
-    allum20 = canvas.create_image(920, 100, image = allum_img, anchor = 'nw')
-    allum21 = canvas.create_image(970, 100, image = allum_img, anchor = 'nw')
-    allum_list = [allum1, allum2, allum3, allum4, allum5, allum6, allum7, allum8, allum9, allum10, allum11, allum12, allum13, allum14,
-    allum15, allum16, allum17, allum18, allum19, allum20, allum21]
-    mainloop()   
-
 
 
 
@@ -786,10 +919,8 @@ def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
         count_x+=1
         appelle_robot_oco(canvas_allum, root_correspondant)
         count_player+=1
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', msg_remerciment)
-    except:
-        pass
+
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
 
 
 
@@ -804,11 +935,28 @@ def appelle_robot_oco(canvas, root_correspondant):
 
     (See comments directly in the code to understand the logic)
     '''
-    global count_player, nb_robot
+    global count_player, nb_robot, vava, wiwi, sexy, girl
+
+    if player1 == " Player 1 " or player1 == None:
+        name_robot_1 = " Marcus "
+    else :
+        name_robot_1 = player1
+    
+    if player2 == " Player 2 " or player2 == None:
+        name_robot_2 = " Donald "
+    else :
+        name_robot_2 = player2
+
     if count_player % 2 == 1 :
-        e=canvas.create_text(540, 450, text="Marcus",font=("Helvetica", 40), fill="blue")
-        r=canvas.create_rectangle(canvas.bbox(e),fill="white")
-        canvas.tag_lower(r, e)
+        try :
+            canvas.delete(sexy)
+            canvas.delete(girl)
+        except :
+            pass
+
+        vava=canvas.create_text(540, 450, text=name_robot_1,font=("Helvetica", 40), fill="blue")
+        wiwi=canvas.create_rectangle(canvas.bbox(vava),fill="white")
+        canvas.tag_lower(wiwi, vava)
         nb_robot=randint(1,3)
         while nb_robot > nb_allumettes :
             nb_robot=randint(1,3)
@@ -817,13 +965,26 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINISHED !","OH DARN I LOST, well done Donald!")                 # So I can know which robot won and therefore which robot lost!
-            msg_remerciment()
+            text_msg_1 = "I LOST, well done" + name_robot_2 + "!"
+            messagebox.showinfo("FINISHED !",text_msg_1)                 # So I can know which robot won and therefore which robot lost!
+            reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
     if count_player % 2 == 0 :
-        d=canvas.create_text(540, 450, text="Donald",font=("Helvetica", 40), fill="red")
-        f=canvas.create_rectangle(canvas.bbox(d),fill="white")
-        canvas.tag_lower(f, d)
+        try :
+            canvas.delete(first_label)
+            canvas.delete(second_label)
+        except :
+            pass
+
+        try :
+            canvas.delete(vava)
+            canvas.delete(wiwi)
+        except :
+            pass
+        
+        sexy=canvas.create_text(540, 450, text=name_robot_2,font=("Helvetica", 40), fill="red")
+        girl=canvas.create_rectangle(canvas.bbox(sexy),fill="white")
+        canvas.tag_lower(girl, sexy)
         nb_robot=randint(1,3)
         while nb_robot > nb_allumettes :
             nb_robot=randint(1,3)
@@ -832,8 +993,9 @@ def appelle_robot_oco(canvas, root_correspondant):
         elif nb_allumettes == 2 :
             nb_robot = 1
         elif nb_allumettes == 1 :
-            messagebox.showinfo("FINI !","OH DARN I LOST, well done Marcus !")                 # So I can know which robot won and therefore which robot lost!
-            msg_remerciment()
+            text_msg_2 = "I LOST, well done" + name_robot_1 + "!"
+            messagebox.showinfo("FINISHED !",text_msg_2)                 # So I can know which robot won and therefore which robot lost!
+            reset_count_win_game()
         canvas.after(1500, suppr_allum_robot_simple_oco, nb_robot, canvas, root_correspondant)      # This function allows you to execute the "suppr_allum_robot_simple_oco()" function seen just above after 1500ms and with my number which has just been determined, as an argument.
 
 
