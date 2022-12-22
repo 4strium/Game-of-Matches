@@ -65,25 +65,6 @@ canvas_accueil.tag_lower(l,k)
 #                                                                                     HOMEPAGE                                                                                                               #
 #                                                                                                                                                                                                            #
 
-# Definition of a function that creates the buttons to take matches:
-def crea_button(racine,canvas):
-    '''
-    Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
-
-    Each button press then invokes a related match delete function.
-
-    It returns the characteristics and the location of the buttons on the canvas.
-    '''
-    v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
-    w=canvas.create_rectangle(canvas.bbox(v),fill="#00bdfb")
-    canvas.tag_lower(w,v)
-    button1 = Button(racine, text="1 allumette", command=lambda *args: suppr_allum(1, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button1_window = canvas.create_window(75, 560, anchor='nw', window=button1)
-    button2 = Button(racine, text="2 allumettes", command=lambda *args: suppr_allum(2, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button2_window = canvas.create_window(430, 560, anchor='nw', window=button2)
-    button3 = Button(racine, text="3 allumettes", command=lambda *args: suppr_allum(3, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
-    button3_window = canvas.create_window(780, 560, anchor='nw', window=button3)
-    return button1_window, button2_window, button3_window
 
 
 def reset_count_win_reg():
@@ -153,8 +134,74 @@ def open_regles():
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert les règles du jeu !")
 
+
+def validation_name_user(root_to_close):
+    """
+    
+    """
+    global count_window_open
+    count_window_open = 0
+
+    player1 = entry1.get()
+    player2 = entry2.get()
+
+    if len(player1) > 0 :
+        player1 = player1[:14]
+    if len(player2) > 0 :
+        player2 = player2[:14]
+
+    player1 = " " + player1 + " "
+    player2 = " " + player2 + " "
+
+    root_to_close.destroy()
+
+    open_mode_jcj(player1, player2)
+
+
+def choose_name():
+    global count_window_open, entry1, entry2
+    if count_window_open == 0 :
+        root_name = Toplevel(root)
+        root_name.title("Choisissez vos noms...")
+        root_name.geometry("1080x720")
+        root_name.minsize(1080, 720)
+        root_name.maxsize(1080, 720)
+        count_window_open+=1
+        # Import and display a background image:
+        canvas_name = Canvas(root_name, width = 1080, height = 720)
+        canvas_name.pack(fill = "both", expand = True)
+        bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
+        canvas_name.create_image( 0, 0, image = bg3, anchor = "nw")
+        
+        i=canvas_name.create_text(540.45, 137, text='Choisissez vos surnoms :', font=("Helvetica", 40), fill="white")
+        r=canvas_name.create_rectangle(canvas_name.bbox(i),fill="#00bdfb")                                                              
+        canvas_name.tag_lower(r,i)
+
+
+        q=canvas_name.create_text(530, 265, text=' Joueur 1 : ', font=("Helvetica", 24), fill="blue")
+        s=canvas_name.create_rectangle(canvas_name.bbox(q),fill="white")                                                              
+        canvas_name.tag_lower(s,q)
+        entry1 = Entry(root_name, font=("Helvetica", 24), width=14, bd=0)
+        canvas_name.create_window(400, 290, anchor='nw', window=entry1)
+        entry1.focus()
+
+        x=canvas_name.create_text(530, 400, text=' Joueur 2 : ', font=("Helvetica", 24), fill="red")
+        c=canvas_name.create_rectangle(canvas_name.bbox(x),fill="white")                                                              
+        canvas_name.tag_lower(c,x)
+        entry2 = Entry(root_name, font=("Helvetica", 24), width=14, bd=0)
+        canvas_name.create_window(400, 425, anchor='nw', window=entry2)
+        
+
+        validation_btn = Button(root_name, text="Valider", font=("Helvetica", 25), fg='white', bg="#00bdfb", height = 1, width = 10, command=lambda *args:validation_name_user(root_name))
+        canvas_name.create_window(425, 550, anchor='nw', window=validation_btn)
+
+        root_name.mainloop()
+    else :
+        messagebox.showinfo("Erreur","Tu as déjà ouvert une fenêtre de jeu !\n\nFerme celle qui est ouverte d'abord...")
+
+
 # Defining a function that opens the Player 1 vs. Player 2 mode window:
-def open_mode_jcj():
+def open_mode_jcj(name1, name2):
     '''
     Procedure that defines what happens if the user presses the "Player vs. Player" button.
 
@@ -176,9 +223,9 @@ def open_mode_jcj():
         bg3 = ImageTk.PhotoImage(file = "img\Background_IMAGE.png")
         canvas_jcj.create_image( 0, 0, image = bg3, anchor = "nw")
         root_jcj.protocol('WM_DELETE_WINDOW', reset_count_win_game)
-        crea_button(root_jcj,canvas_jcj)
-        spawn_allumettes(canvas_jcj)
-        appelle_joueur(canvas_jcj)
+        crea_button(root_jcj,canvas_jcj, name1, name2)
+        spawn_allumettes(canvas_jcj, name1)
+        appelle_joueur(canvas_jcj, name1, name2)
     else :
         messagebox.showinfo("Erreur","Tu as déjà ouvert une fenêtre de jeu !\n\nFerme celle qui est ouverte d'abord...") 
 
@@ -264,7 +311,7 @@ button_rgl_window = canvas_accueil.create_window(855, 640, anchor='nw', window=b
 
 # Add the different buttons to select the game mode:
 
-button_jcj = Button(root, text="Joueur 1 contre Joueur 2", command=open_mode_jcj, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
+button_jcj = Button(root, text="Joueur 1 contre Joueur 2", command=choose_name, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
 button_jcj_window = canvas_accueil.create_window(100, 400, anchor='nw', window=button_jcj)
 
 button_jco = Button(root, text="Joueur contre Ordinateur", command=select_difficult, font=("Helvetica", 20), fg='white', bg="#00bdfb", height = 2, width = 22)
@@ -288,7 +335,7 @@ button_oco_window = canvas_accueil.create_window(375, 520, anchor='nw', window=b
 #                                                                                                                                                                                                            #
 
 # Definition of a function that creates the buttons to take matches:
-def crea_button(racine,canvas):
+def crea_button(racine,canvas, name1, name2):
     '''
     Function that receives the window ("root") as well as the canvas ("canvas") where it must implement buttons to choose the number of matches that the user takes.
 
@@ -300,11 +347,11 @@ def crea_button(racine,canvas):
     v=canvas.create_text(540, 525, text="Combien d'allumette(s) prenez-vous ?",font=("Helvetica", 30), fill="white")
     w=canvas.create_rectangle(canvas.bbox(v),fill="#00bdfb")
     canvas.tag_lower(w,v)
-    button1 = Button(racine, text="1 allumette", command=lambda *args: suppr_allum(1, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button1 = Button(racine, text="1 allumette", command=lambda *args: suppr_allum(1, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button1_window = canvas.create_window(75, 560, anchor='nw', window=button1)
-    button2 = Button(racine, text="2 allumettes", command=lambda *args: suppr_allum(2, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button2 = Button(racine, text="2 allumettes", command=lambda *args: suppr_allum(2, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button2_window = canvas.create_window(430, 560, anchor='nw', window=button2)
-    button3 = Button(racine, text="3 allumettes", command=lambda *args: suppr_allum(3, canvas, racine), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
+    button3 = Button(racine, text="3 allumettes", command=lambda *args: suppr_allum(3, canvas, racine, name1, name2), font=("Helvetica", 14), fg='white', bg="#00bdfb", height = 2, width = 18)
     button3_window = canvas.create_window(780, 560, anchor='nw', window=button3)
     return button1_window, button2_window, button3_window
 
@@ -348,7 +395,7 @@ def spawn_allumettes(canvas, first_name=" Vous "):
     mainloop()
 
 
-def suppr_allum(number, canvas_allum, root_correspondant):
+def suppr_allum(number, canvas_allum, root_correspondant, name1, name2):
     '''
     Quite complex function which accepts as a parameter the number of matches to be deleted "number" according to the button pressed (1 or 2 or 3)
     as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
@@ -367,7 +414,7 @@ def suppr_allum(number, canvas_allum, root_correspondant):
     '''
     global nb_allumettes, count_x, count_player, count_window_open, allum_list
     nb_allumettes = nb_allumettes - number
-    appelle_joueur(canvas_allum)
+    appelle_joueur(canvas_allum, name1, name2)
     if nb_allumettes == 2 :
         button3['state'] = DISABLED
     elif nb_allumettes == 1: 
@@ -402,18 +449,18 @@ def suppr_allum(number, canvas_allum, root_correspondant):
 
 
 
-def appelle_joueur(canvas):
+def appelle_joueur(canvas, name1, name2):
     '''
     Function that admits the canvas of the current game mode "canvas" to display the player whose turn 
     it's according to the turn counter "count_player" (if it's even or odd).
     '''
     global count_player
     if count_player % 2 == 1 :
-        e=canvas.create_text(540, 450, text="Joueur 1",font=("Helvetica", 40), fill="blue")
+        e=canvas.create_text(540, 450, text=name1, font=("Helvetica", 40), fill="blue")
         r=canvas.create_rectangle(canvas.bbox(e),fill="white")
         canvas.tag_lower(r, e)
     if count_player % 2 == 0 :
-        d=canvas.create_text(540, 450, text="Joueur 2",font=("Helvetica", 40), fill="red")
+        d=canvas.create_text(540, 450, text=name2, font=("Helvetica", 40), fill="red")
         f=canvas.create_rectangle(canvas.bbox(d),fill="white")
         canvas.tag_lower(f, d)
 
