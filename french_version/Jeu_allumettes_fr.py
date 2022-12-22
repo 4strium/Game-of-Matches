@@ -425,7 +425,7 @@ def suppr_allum(number, canvas_allum, root_correspondant, name1, name2):
     as well as the canvas of the current game mode "canvas_allum" (where are therefore the images of matches to be deleted) and finally the corresponding window "root_correspondant"
     
     The function subtracts the number of matches taken from the number of matches remaining on the table.
-    It then calls the player who must play this turn using the "appel_joueur()" function
+    It then calls the player who must play this turn using the "appelle_joueur()" function
 
     Depending on the number of remaining matches, the buttons to take more than possible are automatically deactivated!
 
@@ -919,10 +919,9 @@ def suppr_allum_robot_simple_oco(number, canvas_allum, root_correspondant):
         count_x+=1
         appelle_robot_oco(canvas_allum, root_correspondant)
         count_player+=1
-    try:
-        root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
-    except:
-        pass
+
+    root_correspondant.protocol('WM_DELETE_WINDOW', reset_count_win_game)
+
 
 
 
