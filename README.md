@@ -68,6 +68,7 @@ You can access the different versions of the game and download them on the page 
 |                |Description                         |Changes                         |Release date                        |
 |----------------|-------------------------------|-----------------------------|-----------------------------|
 |[v1.0.0](https://github.com/4strium/Game-of-Matches/releases/tag/v1.0.0)|`Initial version`            |...            |Released at 15-05-2022|
+|[v1.1.0](https://github.com/4strium/Game-of-Matches/releases/tag/v1.0.0)|`Final version`              |Fixed issues [#1](https://github.com/4strium/Game-of-Matches/issues/1) [#2](https://github.com/4strium/Game-of-Matches/issues/2) [#3](https://github.com/4strium/Game-of-Matches/issues/3) & added new features.         |Released at 24-12-2022|
 
 
 ## Licence :
